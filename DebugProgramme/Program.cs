@@ -17,11 +17,12 @@ namespace DebugProgramme
             //validator.AddArgumentSet("del[ete]:\"s", dummyFunc);
             //validator.AddArgumentSet("l[i]st:\"s,type:m|g", dummyFunc);
             //validator.AddArgumentSet("l[i]st", dummyFunc);
-            validator.AddArgumentSet("sync[hronize]:\"s,sync", dummyFunc);
+            validator.AddArgumentSet("sync[hronize]:^s", dummyFunc);
 
-            validator.CheckArgs("sync, sync");
+            validator.CheckArgs("sync blubb");
         }
-        static void dummyFunc(ArgumentSetData data)
+
+        static void dummyFunc(ArgumentSetArgs args)
         {
 
         }

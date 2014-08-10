@@ -6,7 +6,7 @@ namespace cmdValidator
 {
 	public class Validator
 	{
-        private const string MESSAGE_INVALID_ARGUMENT_SCHEME = "The argument scheme is invalid.";
+
         private const string MESSAGE_CMD_ALREADY_EXISTS = "Cmd already exists. It's only allowed to use every cmd one time.";
 
 		private string _identifierPattern;
@@ -33,8 +33,9 @@ namespace cmdValidator
 		{
 			this._identifierPattern = "(?:(?:(\\w+)(\\[\\w+\\])?(\\w*))|(?:(\\[\\w+\\])(\\w+)))";
 			this._stringSplitPattern = "(\"([^\"]+)\"|[^(\\s|,)]+),?";
-			this._argumentPattern = "\\A(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+)))(?:\\|(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+))))*(?:(?::\\([\"\\w ]+(?:\\|[\"\\w ]+)*\\))|(?::[\"\\w ]+(?:\\|[\"\\w ]+)*))?\\Z";
-			if (separators == null)
+			//this._argumentPattern = "\\A(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+)))(?:\\|(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+))))*(?:(?::\\([\"\\w ]+(?:\\|[\"\\w ]+)*\\))|(?::[\"\\w ]+(?:\\|[\"\\w ]+)*))?\\Z";
+		    this._argumentPattern = "\\A(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+)))(?:\\|(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+))))*(?:(?::\\([^|]+(?:\\|[^|]+)*\\))|(?::[^|]+(?:\\|[^|]+)*))?\\Z";
+            if (separators == null)
 			{
 				this._optionPrefixes = new string[]
 				{
@@ -116,92 +117,71 @@ namespace cmdValidator
 		}
         private ArgumentScheme GetParsedArgumentScheme(ArgumentScheme argScheme, ref List<string> args)
         {
-            for (int i = 0; i < args.Count; i++)
+            //check if identifier is existing and remove it from args
+            //otherwise return null and stop it that way from parsing
+            if (args.Count > 0 && argScheme.Identifiers.Contains(args[0]))
+                args.RemoveAt(0);
+            else if (argScheme.IsOptional)
+                return argScheme;
+            else
+                return null;
+
+            switch (argScheme.ValueType)
             {
-                int num = -1;
-                string identifier = this.GetIdentifier(argScheme.Identifiers, args, out num);
-                if (identifier != "")
-                {
-                    int num2 = num;
-                    i = num + 1;
-                    switch (argScheme.ValueType)
-                    {
-                        case ValueType.None:
-                            {
-                                int num3 = num2;
-                                //args = this.RemoveItems(num2, num3, args);
-                                args.Remove(identifier);
-                                return argScheme;
-                            }
-                        case ValueType.Single:
-                            if (i < args.Count)
-                            {
-                                if (this.IsOption(args[i]) == -1)
-                                {
-                                    if ((argScheme.AllowedValues.Count > 0 && argScheme.AllowedValues.Contains(args[i])) || argScheme.AllowedValues.Count == 0)
-                                    {
-                                        argScheme.ParsedValues.Add(args[i]);
-                                        int num3 = i;
-                                        //args = this.RemoveItems(num2, num3, args);
-                                        args.Remove(identifier);
-                                        return argScheme;
-                                    }
-                                    if (argScheme.OptionalValues)
-                                    {
-                                        return argScheme;
-                                    }
-                                    return null;
-                                }
-                            }
-                            else
-                            {
-                                if (argScheme.OptionalValues)
-                                {
-                                    int num3 = num2;
-                                    //args = this.RemoveItems(num2, num3, args);
-                                    args.Remove(identifier);
-                                    return argScheme;
-                                }
-                            }
-                            return null;
-                        case ValueType.List:
-                            {
-                                List<string> list = new List<string>();
-                                int num3 = num2;
-                                for (int j = num3 + 1; j < args.Count; j++)
-                                {
-                                    if (this.IsOption(args[j]) != -1)
-                                    {
-                                        break;
-                                    }
-                                    list.Add(args[j]);
-                                    num3 = j;
-                                }
-                                //args = this.RemoveItems(num2, num3, args);
-                                args.Remove(identifier);
-                                if (list.Count > 0)
-                                {
-                                    argScheme.ParsedValues = list;
-                                    return argScheme;
-                                }
-                                if (argScheme.OptionalValues)
-                                {
-                                    return argScheme;
-                                }
-                                return null;
-                            }
-                    }
-                }
-                else
-                {
-                    if (argScheme.IsOptional)
-                    {
-                        return argScheme;
-                    }
-                }
+                case ValueType.None:
+                    return argScheme;
+                case ValueType.Single:
+                    return ParseSingleValue(argScheme, ref args);
+                case ValueType.List:
+                    return ParseListValue(argScheme, ref args);
             }
+
             return null;
         }
+
+        private ArgumentScheme ParseSingleValue(ArgumentScheme argScheme, ref List<string> args)
+        {
+            if (args.Count > 0 && this.IsOption(args[0]) == -1)
+            {
+                bool specialValueRequired = argScheme.AllowedValues.Count > 0;
+                bool requiredValueAvailable = argScheme.AllowedValues.Contains(args[0]);
+
+                if (specialValueRequired && requiredValueAvailable || !specialValueRequired)
+                {
+                    argScheme.ParsedValues.Add(args[0]);
+                    args.RemoveAt(0);
+                    return argScheme;
+                }
+                else
+                    return null;
+            }
+
+            if (argScheme.OptionalValues)
+                return argScheme;
+            else
+                return null;
+        }
+
+        private ArgumentScheme ParseListValue(ArgumentScheme argScheme, ref List<string> args)
+        {
+            List<string> argsCopy = new List<string>();
+            foreach (var arg in args)
+                argsCopy.Add(arg);
+
+            foreach (var arg in argsCopy)
+            {
+                if (this.IsOption(arg) != -1)
+                    break;
+                argScheme.ParsedValues.Add(arg);
+                args.Remove(arg);
+            }
+
+            if (argScheme.ParsedValues.Count > 0 || argScheme.OptionalValues)
+                return argScheme;
+            else
+                return null;
+        }
+
         private string[] RemoveItems(int minIndex, int maxIndex, string[] text)
         {
             List<string> list = new List<string>();
@@ -313,7 +293,7 @@ namespace cmdValidator
 
             //if there are no argument schemes stop parsing and throw exception
             if (array.Length < 1)
-                throw new Exception(string.Format("{0}\nThe argument schemes are empty.", MESSAGE_INVALID_ARGUMENT_SCHEME));
+                throw new InvalidArgumentSchemeException("The argument schemes are empty.");
 
             //first argumentScheme is always the cmd
             list.Add(GetArgumentScheme(array[0], true));
@@ -330,10 +310,7 @@ namespace cmdValidator
             ArgumentScheme argumentScheme = this.GetArgument(argumentSchemeString, isCmd);
 
             if (argumentScheme == null)
-            {
-                throw new Exception(string.Format("{0}\nCorrupt argument scheme: {1}",
-                    MESSAGE_INVALID_ARGUMENT_SCHEME, argumentSchemeString));
-            }
+                throw new InvalidArgumentSchemeException(string.Format("Following argument scheme is corrupted:\n\"{0}\"", argumentSchemeString));
 
             return argumentScheme;
         }
@@ -389,14 +366,14 @@ namespace cmdValidator
 				optionalValues = false;
 			}
 			IEnumerable<string> result;
-			if (valueScheme == "\"list" || valueScheme == "\"l")
+			if (valueScheme == "^list" || valueScheme == "^l")
 			{
 				valueType = ValueType.List;
 				result = new string[0];
 			}
 			else
 			{
-				if (valueScheme == "\"single" || valueScheme == "\"s")
+				if (valueScheme == "^single" || valueScheme == "^s")
 				{
 					valueType = ValueType.Single;
 					result = new string[0];

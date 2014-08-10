@@ -37,12 +37,13 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CMDValidator\ArgumentSetData.cs" />
-    <Compile Include="CMDValidator\ArgumentScheme.cs" />
-    <Compile Include="CMDValidator\ArgumentSet.cs" />
-    <Compile Include="CMDValidator\Validator.cs" />
-    <Compile Include="CMDValidator\GetArguments.cs" />
-    <Compile Include="CMDValidator\ValueType.cs" />
+    <Compile Include="cmdValidator\ArgumentSetArgs.cs" />
+    <Compile Include="cmdValidator\ArgumentScheme.cs" />
+    <Compile Include="cmdValidator\ArgumentSet.cs" />
+    <Compile Include="cmdValidator\InvalidArgumentSchemeException.cs" />
+    <Compile Include="cmdValidator\Validator.cs" />
+    <Compile Include="cmdValidator\GetArguments.cs" />
+    <Compile Include="cmdValidator\ValueType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

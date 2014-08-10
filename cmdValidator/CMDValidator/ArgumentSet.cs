@@ -25,7 +25,7 @@ namespace cmdValidator
         public void TriggerEvent(string[] unknownOptions)
         {
             if (this.GetArgs != null)
-                this.GetArgs(new ArgumentSetData(this, unknownOptions));
+                this.GetArgs(new ArgumentSetArgs(this, unknownOptions));
         }
 
         private bool IsValid()

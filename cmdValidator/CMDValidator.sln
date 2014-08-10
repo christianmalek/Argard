@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMDValidator", "CMDValidator.csproj", "{02EE9BF0-BE89-4DB1-AF81-9D95BC6DB9A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cmdValidator", "cmdValidator.csproj", "{02EE9BF0-BE89-4DB1-AF81-9D95BC6DB9A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugProgramme", "..\DebugProgramme\DebugProgramme.csproj", "{21CB810D-996B-4250-9AC9-F33BA812998C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cmdValidatorTests", "..\CMDValidatorTests\cmdValidatorTests.csproj", "{C4A3C2EE-5ECC-437D-8417-7F57D02995A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{21CB810D-996B-4250-9AC9-F33BA812998C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21CB810D-996B-4250-9AC9-F33BA812998C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21CB810D-996B-4250-9AC9-F33BA812998C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4A3C2EE-5ECC-437D-8417-7F57D02995A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4A3C2EE-5ECC-437D-8417-7F57D02995A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4A3C2EE-5ECC-437D-8417-7F57D02995A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4A3C2EE-5ECC-437D-8417-7F57D02995A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

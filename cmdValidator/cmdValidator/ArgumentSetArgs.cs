@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace cmdValidator
 {
-    public class ArgumentSetData
+    public class ArgumentSetArgs
     {
         public Dictionary<string, ArgumentScheme> CMD { get; private set; }
         public Dictionary<string, ArgumentScheme> Options { get; private set; }
         public string[] UnknownParameters { get; private set; }
 
-        public ArgumentSetData(ArgumentSet argumentSet, string[] unknownOptions)
+        public ArgumentSetArgs(ArgumentSet argumentSet, string[] unknownOptions)
         {
             this.CMD = new Dictionary<string, ArgumentScheme>();
             this.Options = new Dictionary<string, ArgumentScheme>();
