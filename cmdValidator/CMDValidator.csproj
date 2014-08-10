@@ -37,9 +37,10 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CMDValidator\ArgumentSetData.cs" />
     <Compile Include="CMDValidator\ArgumentScheme.cs" />
     <Compile Include="CMDValidator\ArgumentSet.cs" />
-    <Compile Include="CMDValidator\CMDValidator.cs" />
+    <Compile Include="CMDValidator\Validator.cs" />
     <Compile Include="CMDValidator\GetArguments.cs" />
     <Compile Include="CMDValidator\ValueType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
