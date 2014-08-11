@@ -17,7 +17,7 @@ namespace DebugProgramme
             //validator.AddArgumentSet("del[ete]:\"s", dummyFunc);
             //validator.AddArgumentSet("l[i]st:\"s,type:m|g", dummyFunc);
             //validator.AddArgumentSet("l[i]st", dummyFunc);
-            validator.AddArgumentSet("sync[hronize]:^s", dummyFunc);
+            validator.AddArgumentSet("sync:\"l", dummyFunc);
 
             validator.CheckArgs("sync blubb");
         }

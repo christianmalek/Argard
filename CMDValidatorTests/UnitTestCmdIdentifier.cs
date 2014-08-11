@@ -5,7 +5,8 @@ using cmdValidator;
 
 namespace CMDValidatorTests
 {
-    class UnitTestCmdIdentifier
+    [TestClass]
+    public class UnitTestCmdIdentifier
     {
         #region Test requirements
         bool expectedEventGotRaised;

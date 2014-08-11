@@ -5,7 +5,8 @@ using cmdValidator;
 
 namespace CMDValidatorTests
 {
-    class UnitTestValueList
+    [TestClass]
+    public class UnitTestValueList
     {
         #region Test requirements
         bool expectedEventGotRaised;
@@ -104,6 +105,36 @@ namespace CMDValidatorTests
             validator.AddArgumentSet("show", dummyFunc);
 
             validator.CheckArgs("install");
+
+            Assert.AreEqual(true, GetRaisingResults());
+        }
+
+        [TestMethod]
+        public void TestMethodValueList6()
+        {
+            InitializeTest();
+
+            Validator validator = new Validator(false);
+            validator.AddArgumentSet("list", dummyFunc);
+            validator.AddArgumentSet("inst[all]:(^l)", expectedFunc);
+            validator.AddArgumentSet("show", dummyFunc);
+
+            validator.CheckArgs("inst angularjs jquery");
+
+            Assert.AreEqual(true, GetRaisingResults());
+        }
+
+        [TestMethod]
+        public void TestMethodValueList7()
+        {
+            InitializeTest();
+
+            Validator validator = new Validator(false);
+            validator.AddArgumentSet("list", dummyFunc);
+            validator.AddArgumentSet("inst[all]:(^l)", expectedFunc);
+            validator.AddArgumentSet("show", dummyFunc);
+
+            validator.CheckArgs("inst, lol dsadasdsa as,das, \"fds  gf gffds\", gfsdfs fdf");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
