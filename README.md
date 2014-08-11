@@ -81,7 +81,7 @@ In this advanced tutorial you will learn advanced possibilties of the cmdValidat
     - **help -x -y -z**
 
   
-  Here is the code for all three steps:
+  Here is the code for all four steps:
   
     ```cs
         //...
