@@ -62,7 +62,7 @@ In this advanced tutorial you will learn advanced possibilties of the cmdValidat
 
 2. Add an argument set. Argument sets are objects that describe a command with every possible argument and option. In our example we want an argument set that describes following fantasy command:
     - command name: **install**
-    - required option: **name** (the name of the programme whhich should be installed)
+    - required option: **name (with single value appended)** (the name of the programme whhich should be installed)
     - required option: **destination (with single value appended)** (the place where we want to install sth.)
     - optional option: **silent (just a flag)** (if somebody wants to install sth. in the background without disturbance)
 
