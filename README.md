@@ -93,7 +93,7 @@ In this advanced tutorial you will learn advanced possibilties of the cmdValidat
         validator.AddArgumentSet("install, name:^s, destination:^s, (silent)", Install);
         
         //4. create args and call CheckArgs(...)
-        string args = "install appXYZ.exe --destination "C:\folder with spaces" --silent";
+        string args = "install appXYZ.exe --destination "C:\\folder with spaces" --silent";
         validator.CheckArgs(args);
         
         //3. declare a function
