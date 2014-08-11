@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="UnitTestMultipleIdentifiers.cs" />
     <Compile Include="UnitTestCmdIdentifier.cs" />
     <Compile Include="UnitTestSimple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

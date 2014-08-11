@@ -117,10 +117,21 @@ namespace cmdValidator
 		}
         private ArgumentScheme GetParsedArgumentScheme(ArgumentScheme argScheme, ref List<string> args)
         {
+            bool validCmdIdentifier = false;
+            bool validOptionIdentifier = false;
+
             //check if identifier is existing and remove it from args
             //otherwise return null and stop it that way from parsing
-            if (args.Count > 0 && argScheme.Identifiers.Contains(args[0]))
-                args.RemoveAt(0);
+            if (args.Count > 0)
+            {
+                validCmdIdentifier = CheckIfArgIsValidCmdIdentifier(argScheme, args[0]);
+                validOptionIdentifier = CheckIfArgIsValidOptionIdentifier(argScheme, args[0]);
+
+                if (validCmdIdentifier || validOptionIdentifier)
+                    args.RemoveAt(0);
+                else
+                    return null;
+            }
             else if (argScheme.IsOptional)
                 return argScheme;
             else
@@ -137,6 +148,27 @@ namespace cmdValidator
             }
 
             return null;
+        }
+
+        //checks if the passed argument is a cmd identifier of the passed argument scheme
+        private bool CheckIfArgIsValidCmdIdentifier(ArgumentScheme argScheme, string arg)
+        {
+            int isOption = this.IsOption(arg);
+
+            return argScheme.IsCmd && isOption == -1 && argScheme.Identifiers.Contains(arg);
+        }
+
+        //checks if the passed argument is a option identifier of the passed argument scheme
+        private bool CheckIfArgIsValidOptionIdentifier(ArgumentScheme argScheme, string arg)
+        {
+            int isOption = this.IsOption(arg);
+
+            if (isOption == -1)
+                return false;
+
+            string argWithoutOptionPrefix = arg.Substring(isOption);
+
+            return argScheme.IsCmd == false && argScheme.Identifiers.Contains(argWithoutOptionPrefix);
         }
 
         private ArgumentScheme ParseSingleValue(ArgumentScheme argScheme, ref List<string> args)
@@ -224,41 +256,16 @@ namespace cmdValidator
             result = "";
             return result;
         }
-        //private string GetIdentifier(IEnumerable<string> identifiers, string[] args, out int indexIdentifier)
-        //{
-        //    string[] array = identifiers.Cast<string>().ToArray<string>();
-        //    string result;
-        //    for (int i = 0; i < args.Length; i++)
-        //    {
-        //        int num = this.IsOption(args[i]);
-        //        if (num > -1)
-        //        {
-        //            string text = args[i].Substring(this._separators[num].Length);
-        //            if (identifiers.Contains(text))
-        //            {
-        //                indexIdentifier = i;
-        //                result = text;
-        //                return result;
-        //            }
-        //        }
-        //    }
-        //    indexIdentifier = -1;
-        //    result = "";
-        //    return result;
-        //}
+
+        //returns the length of the option prefix
+        //if there is none it returns -1
 		private int IsOption(string argument)
 		{
-			int result;
-			for (int i = 0; i < this._optionPrefixes.Length; i++)
-			{
-				if (argument.StartsWith(this._optionPrefixes[i]))
-				{
-					result = i;
-					return result;
-				}
-			}
-			result = -1;
-			return result;
+            for (int i = 0; i < this._optionPrefixes.Length; i++)
+                if (argument.StartsWith(this._optionPrefixes[i]))
+                    return this._optionPrefixes[i].Length;
+
+            return -1;
 		}
 		private string GetOptionWithoutSeparator(string option, int separatorIndex)
 		{
@@ -291,6 +298,8 @@ namespace cmdValidator
 				','
 			});
 
+            //TODO: evtl jedes arg trimmen?
+
             //if there are no argument schemes stop parsing and throw exception
             if (array.Length < 1)
                 throw new InvalidArgumentSchemeException("The argument schemes are empty.");
@@ -315,34 +324,35 @@ namespace cmdValidator
             return argumentScheme;
         }
 
-		private ArgumentScheme GetArgument(string argumentScheme, bool isCmd)
+		private ArgumentScheme GetArgument(string argumentSchemeString, bool isCmd)
 		{
-			bool isOptional = this.CheckFirstAndLastCharOfString('(', ')', argumentScheme);
+			bool isOptional = this.CheckFirstAndLastCharOfString('(', ')', argumentSchemeString);
+
 			if (isOptional)
-			{
-				argumentScheme = this.RemoveLastAndFirstChar(argumentScheme);
-			}
+				argumentSchemeString = this.RemoveLastAndFirstChar(argumentSchemeString);
+
 			ArgumentScheme result;
-			if (this.IsValid(argumentScheme))
+			if (this.IsValid(argumentSchemeString))
 			{
 				ValueType valueType = ValueType.None;
-				int num = argumentScheme.IndexOf(':');
+				int num = argumentSchemeString.IndexOf(':');
+                num = num == -1 ? argumentSchemeString.IndexOf('=') : num;
+
 				if (num == -1)
-				{
-					num = argumentScheme.IndexOf('=');
-				}
+					num = argumentSchemeString.IndexOf('=');
+
 				if (num > -1)
 				{
-					string valueScheme = argumentScheme.Substring(num + 1);
+					string valueScheme = argumentSchemeString.Substring(num + 1);
 					bool optionalValues;
 					string[] values2 = this.GetValues(valueScheme, out optionalValues, out valueType).Cast<string>().ToArray<string>();
-					string multipleIdentifierScheme = argumentScheme.Substring(0, num);
+					string multipleIdentifierScheme = argumentSchemeString.Substring(0, num);
 
                     result = new ArgumentScheme(this.GetIdentifiers(multipleIdentifierScheme), values2, valueType, optionalValues, isOptional, isCmd);
 				}
 				else
 				{
-					string multipleIdentifierScheme = argumentScheme;
+					string multipleIdentifierScheme = argumentSchemeString;
 
                     result = new ArgumentScheme(this.GetIdentifiers(multipleIdentifierScheme), new List<string>(), ValueType.None, false, isOptional, isCmd);
 				}

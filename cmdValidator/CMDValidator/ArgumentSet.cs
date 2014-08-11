@@ -18,6 +18,7 @@ namespace cmdValidator
             this._argSchemes = argSchemes.Cast<ArgumentScheme>().ToArray<ArgumentScheme>();
             if (!this.IsValid())
             {
+                //TODO: Exception anpassen!
                 throw new Exception("Es ist mindestens ein Argumentschema notwendig.");
             }
             this.GetArgs += getArgs;

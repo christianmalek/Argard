@@ -138,5 +138,65 @@ namespace CMDValidatorTests
 
             Assert.AreEqual(true, GetRaisingResults());
         }
+
+        [TestMethod]
+        public void TestMethodValueList1_1()
+        {
+            InitializeTest();
+
+            Validator validator = new Validator(false);
+            validator.AddArgumentSet("list", dummyFunc);
+            validator.AddArgumentSet("install:^list", expectedFunc);
+            validator.AddArgumentSet("show", dummyFunc);
+
+            validator.CheckArgs("install jquery");
+
+            Assert.AreEqual(true, GetRaisingResults());
+        }
+
+        [TestMethod]
+        public void TestMethodValueList2_1()
+        {
+            InitializeTest();
+
+            Validator validator = new Validator(false);
+            validator.AddArgumentSet("list", dummyFunc);
+            validator.AddArgumentSet("install:^list", expectedFunc);
+            validator.AddArgumentSet("show", dummyFunc);
+
+            validator.CheckArgs("install");
+
+            Assert.AreEqual(false, GetRaisingResults());
+        }
+
+        [TestMethod]
+        public void TestMethodValueList3_1()
+        {
+            InitializeTest();
+
+            Validator validator = new Validator(false);
+            validator.AddArgumentSet("list", dummyFunc);
+            validator.AddArgumentSet("install:^list", expectedFunc);
+            validator.AddArgumentSet("show", dummyFunc);
+
+            validator.CheckArgs("install jquery lo-dash \"yet another option\"");
+
+            Assert.AreEqual(true, GetRaisingResults());
+        }
+
+        [TestMethod]
+        public void TestMethodValueList4_1()
+        {
+            InitializeTest();
+
+            Validator validator = new Validator(false);
+            validator.AddArgumentSet("list", dummyFunc);
+            validator.AddArgumentSet("install:(^list)", expectedFunc);
+            validator.AddArgumentSet("show", dummyFunc);
+
+            validator.CheckArgs("install jquery");
+
+            Assert.AreEqual(true, GetRaisingResults());
+        }
     }
 }
