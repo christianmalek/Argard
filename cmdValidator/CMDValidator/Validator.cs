@@ -6,62 +6,67 @@ namespace cmdValidator
 {
 	public class Validator
 	{
-
-        private const string MESSAGE_CMD_ALREADY_EXISTS = "Cmd already exists. It's only allowed to use every cmd one time.";
-
-		private string _identifierPattern;
-		private string _stringSplitPattern;
-		private string _argumentPattern;
-		private string[] _optionPrefixes;
+        //validation patterns
+		private const string _identifierPattern= "(?:(?:(\\w+)(\\[\\w+\\])?(\\w*))|(?:(\\[\\w+\\])(\\w+)))";
+		private const string _stringSplitPattern = "(\"([^\"]+)\"|[^(\\s|,)]+),?";
+        private const string _argumentPattern = "\\A(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+)))(?:\\|(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+))))*(?:(?::\\([^|]+(?:\\|[^|]+)*\\))|(?:\\s*:[^|]+(?:\\|[^|]+)*))?\\Z";
+		
+        private string[] _optionPrefixes;
 		private bool _ignoreUnknownParameters;
+        private bool _ignoreCase;
 		private List<ArgumentSet> _argumentSets;
-		public bool IgnoreUnknownParameters
+        public bool IgnoreUnknownParameters
+        {
+            get { return this._ignoreUnknownParameters; }
+            set { this._ignoreUnknownParameters = value; }
+        }
+        public bool IgnoreCase
+        {
+            get { return this._ignoreCase; }
+        }
+
+        public Validator(bool ignoreUnknownParameters)
+            : this(ignoreUnknownParameters, false, null)
+        { }
+
+        public Validator(bool ignoreUnknownParameters, bool ignoreCase)
+            : this(ignoreUnknownParameters, ignoreCase, null)
+        { }
+
+		private Validator(bool ignoreUnknownParameters, bool ignoreCase, string[] separators)
 		{
-			get
-			{
-				return this._ignoreUnknownParameters;
-			}
-			set
-			{
-				this._ignoreUnknownParameters = value;
-			}
-		}
-		public Validator(bool ignoreUnknownParameters) : this(ignoreUnknownParameters, null)
-		{
-		}
-		private Validator(bool ignoreUnknownParameters, string[] separators)
-		{
-			this._identifierPattern = "(?:(?:(\\w+)(\\[\\w+\\])?(\\w*))|(?:(\\[\\w+\\])(\\w+)))";
-			this._stringSplitPattern = "(\"([^\"]+)\"|[^(\\s|,)]+),?";
-			//this._argumentPattern = "\\A(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+)))(?:\\|(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+))))*(?:(?::\\([\"\\w ]+(?:\\|[\"\\w ]+)*\\))|(?::[\"\\w ]+(?:\\|[\"\\w ]+)*))?\\Z";
-		    this._argumentPattern = "\\A(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+)))(?:\\|(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+))))*(?:(?::\\([^|]+(?:\\|[^|]+)*\\))|(?::[^|]+(?:\\|[^|]+)*))?\\Z";
+            this._ignoreUnknownParameters = ignoreUnknownParameters;
+            this._ignoreCase = ignoreCase;
+            this._argumentSets = new List<ArgumentSet>();
+
             if (separators == null)
-			{
 				this._optionPrefixes = new string[]
 				{
 					"-",
 					"--",
 					"/"
 				};
-			}
 			else
-			{
 				this._optionPrefixes = separators;
-			}
-			this._optionPrefixes = this.SortByLengthDescending(this._optionPrefixes).Cast<string>().ToArray<string>();
-			this._ignoreUnknownParameters = ignoreUnknownParameters;
-			this._argumentSets = new List<ArgumentSet>();
+
+            //necessary, otherwise the StartsWith() method will not work properly
+            this._optionPrefixes = this.SortByLengthDescending(this._optionPrefixes).Cast<string>().ToArray<string>();
 		}
-		private IEnumerable<string> SortByLengthDescending(IEnumerable<string> e)
-		{
-			return 
-				from s in e
-				orderby s.Length descending
-				select s;
-		}
-		public void AddArgumentSet(string argumentSchemesString, GetArguments getArgs)
-		{
-			IEnumerable<ArgumentScheme> argumentSchemes = this.GetArgumentSchemes(argumentSchemesString);
+
+        private IEnumerable<string> SortByLengthDescending(IEnumerable<string> e)
+        {
+            return
+                from s in e
+                orderby s.Length descending
+                select s;
+        }
+
+        public void AddArgumentSet(string argumentSchemesString, GetArguments getArgs)
+        {
+            if (this._ignoreCase)
+                argumentSchemesString = argumentSchemesString.ToLower();
+
+            IEnumerable<ArgumentScheme> argumentSchemes = this.GetArgumentSchemes(argumentSchemesString);
 
             ArgumentSet newArgumentSet = new ArgumentSet(argumentSchemes, getArgs);
 
@@ -70,35 +75,44 @@ namespace cmdValidator
             //otherwise a exception will be thrown
             foreach (var argumentSet in this._argumentSets)
                 foreach (var newIdentifier in newArgumentSet.GetCmd().Identifiers)
-                    foreach (var identifier in argumentSet.GetCmd().Identifiers)
-                        if(identifier.Contains(newIdentifier))
-                            throw new Exception(string.Format("{0}\nduplicative cmd: {1}", MESSAGE_CMD_ALREADY_EXISTS, newIdentifier));
+                    if (argumentSet.GetCmd().Identifiers.Contains(newIdentifier))
+                    {
+                        string message = "Cmd already exists. It's only allowed to use every cmd one time.";
+                        throw new InvalidArgumentSetException(string.Format("{0}\nduplicative cmd: {1}", message, newIdentifier));
+                    }
 
-			this._argumentSets.Add(new ArgumentSet(argumentSchemes, getArgs));
-		}
+            this._argumentSets.Add(new ArgumentSet(argumentSchemes, getArgs));
+        }
+
 		public bool CheckArgs(string args)
 		{
 			return this.CheckArgs(this.SplitArgs(args).Cast<string>().ToList<string>());
 		}
+
 		public bool CheckArgs(List<string> args)
 		{
+            if (this._ignoreCase)
+                for (int i = 0; i < args.Count; i++)
+                    args[i] = args[i].ToLower();
+
 			bool result = false;
 			for (int i = 0; i < this._argumentSets.Count; i++)
 			{
 				List<string> unknownParameters = new List<string>();
 				ArgumentSet parsedArgumentSet = this.GetParsedArgumentSet(this._argumentSets[i], args, this._ignoreUnknownParameters, ref unknownParameters);
+
 				if (parsedArgumentSet != null)
 				{
 					this._argumentSets[i] = parsedArgumentSet;
+
 					if (this._ignoreUnknownParameters || (!this._ignoreUnknownParameters && unknownParameters.Count == 0))
-					{
 						parsedArgumentSet.TriggerEvent(unknownParameters.ToArray());
-					}
 					result = true;
 				}
 			}
 			return result;
 		}
+
 		private ArgumentSet GetParsedArgumentSet(ArgumentSet argSet, List<string> args, bool ignoreUnknownParameters, ref List<string> unknownOptions)
 		{
 			List<ArgumentScheme> list = new List<ArgumentScheme>();
@@ -115,6 +129,7 @@ namespace cmdValidator
 			argSet.ArgSchemes = list.ToArray();
 			return argSet;
 		}
+
         private ArgumentScheme GetParsedArgumentScheme(ArgumentScheme argScheme, ref List<string> args)
         {
             bool validCmdIdentifier = false;
@@ -188,7 +203,7 @@ namespace cmdValidator
                     return null;
             }
 
-            if (argScheme.OptionalValues)
+            if (argScheme.AreValuesOptional)
                 return argScheme;
             else
                 return null;
@@ -208,7 +223,7 @@ namespace cmdValidator
                 args.Remove(arg);
             }
 
-            if (argScheme.ParsedValues.Count > 0 || argScheme.OptionalValues)
+            if (argScheme.ParsedValues.Count > 0 || argScheme.AreValuesOptional)
                 return argScheme;
             else
                 return null;
@@ -267,13 +282,15 @@ namespace cmdValidator
 
             return -1;
 		}
+
 		private string GetOptionWithoutSeparator(string option, int separatorIndex)
 		{
 			return option.Substring(this._optionPrefixes[separatorIndex].Length - 1);
 		}
+
 		private IEnumerable<string> SplitArgs(string args)
 		{
-			Regex regex = new Regex(this._stringSplitPattern);
+			Regex regex = new Regex(Validator._stringSplitPattern);
 			MatchCollection matchCollection = regex.Matches(args);
 			foreach (Match match in matchCollection)
 			{
@@ -289,7 +306,8 @@ namespace cmdValidator
 			}
 			yield break;
 		}
-		public IEnumerable<ArgumentScheme> GetArgumentSchemes(string argumentSchemes)
+
+		private IEnumerable<ArgumentScheme> GetArgumentSchemes(string argumentSchemes)
 		{
 			argumentSchemes = argumentSchemes.Trim();
 			List<ArgumentScheme> list = new List<ArgumentScheme>();
@@ -331,24 +349,26 @@ namespace cmdValidator
 			if (isOptional)
 				argumentSchemeString = this.RemoveLastAndFirstChar(argumentSchemeString);
 
+            //remove spaces at the beginning and end for the sake of validation
+            argumentSchemeString = argumentSchemeString.Trim();
+
 			ArgumentScheme result;
 			if (this.IsValid(argumentSchemeString))
 			{
 				ValueType valueType = ValueType.None;
 				int num = argumentSchemeString.IndexOf(':');
-                num = num == -1 ? argumentSchemeString.IndexOf('=') : num;
 
 				if (num == -1)
 					num = argumentSchemeString.IndexOf('=');
 
 				if (num > -1)
 				{
-					string valueScheme = argumentSchemeString.Substring(num + 1);
-					bool optionalValues;
-					string[] values2 = this.GetValues(valueScheme, out optionalValues, out valueType).Cast<string>().ToArray<string>();
+					string valueScheme = argumentSchemeString.Substring(num + 1).Trim();
+					bool areValuesOptional;
+					string[] values2 = this.GetValues(valueScheme, out areValuesOptional, out valueType).Cast<string>().ToArray<string>();
 					string multipleIdentifierScheme = argumentSchemeString.Substring(0, num);
 
-                    result = new ArgumentScheme(this.GetIdentifiers(multipleIdentifierScheme), values2, valueType, optionalValues, isOptional, isCmd);
+                    result = new ArgumentScheme(this.GetIdentifiers(multipleIdentifierScheme), values2, valueType, areValuesOptional, isOptional, isCmd);
 				}
 				else
 				{
@@ -363,45 +383,42 @@ namespace cmdValidator
 			}
 			return result;
 		}
-		private IEnumerable<string> GetValues(string valueScheme, out bool optionalValues, out ValueType valueType)
-		{
-			valueScheme = valueScheme.ToLower();
-			if (this.CheckFirstAndLastCharOfString('(', ')', valueScheme))
-			{
-				optionalValues = true;
-				valueScheme = this.RemoveLastAndFirstChar(valueScheme);
-			}
-			else
-			{
-				optionalValues = false;
-			}
-			IEnumerable<string> result;
-			if (valueScheme == "^list" || valueScheme == "^l")
-			{
-				valueType = ValueType.List;
-				result = new string[0];
-			}
-			else
-			{
-				if (valueScheme == "^single" || valueScheme == "^s")
-				{
-					valueType = ValueType.Single;
-					result = new string[0];
-				}
-				else
-				{
-					valueType = ValueType.Single;
-					result = valueScheme.Split(new char[]
-					{
-						'|'
-					});
-				}
-			}
-			return result;
-		}
+        private IEnumerable<string> GetValues(string valueScheme, out bool areValuesOptional, out ValueType valueType)
+        {
+            valueScheme = valueScheme.ToLower();
+            if (this.CheckFirstAndLastCharOfString('(', ')', valueScheme))
+            {
+                areValuesOptional = true;
+                valueScheme = this.RemoveLastAndFirstChar(valueScheme);
+            }
+            else
+                areValuesOptional = false;
+
+            if (valueScheme == "^list" || valueScheme == "^l")
+            {
+                valueType = ValueType.List;
+                return new string[0];
+            }
+            else if (valueScheme == "^single" || valueScheme == "^s")
+            {
+                valueType = ValueType.Single;
+                return new string[0];
+            }
+            else
+            {
+                valueType = ValueType.Single;
+                string[] values = valueScheme.Split(new char[]{'|'});
+
+                //remove all spaces at the beginning and the end
+                for (int i = 0; i < values.Length; i++)
+                    values[i] = values[i].Trim();
+
+                return values;
+            }
+        }
 		private bool IsValid(string argument)
 		{
-			Regex regex = new Regex(this._argumentPattern);
+			Regex regex = new Regex(Validator._argumentPattern);
 			return regex.IsMatch(argument);
 		}
 		private IEnumerable<string> GetIdentifiers(string multipleIdentifierScheme)
@@ -422,7 +439,7 @@ namespace cmdValidator
 		private IEnumerable<string> SplitIdentifiers(string singleIdentifierScheme)
 		{
 			List<string> list = new List<string>();
-			Regex regex = new Regex(this._identifierPattern);
+			Regex regex = new Regex(Validator._identifierPattern);
 			Match match = regex.Match(singleIdentifierScheme);
 			string[] array = new string[5];
 			for (int i = 0; i < 5; i++)

@@ -8,7 +8,7 @@ namespace cmdValidator
         private List<string> _allowedValues;
         private List<string> _parsedValues;
         private ValueType _valueType;
-        private bool _optionalValues;
+        private bool _areValuesOptional;
         private bool _isNotRequired;
         private bool _isCmd;
         public List<string> Identifiers
@@ -24,13 +24,23 @@ namespace cmdValidator
             get { return this._parsedValues; }
             set { this._parsedValues = value; }
         }
+        public string FirstValue
+        {
+            get
+            {
+                if (this._parsedValues.Count > 0)
+                    return this._parsedValues[0];
+                else
+                    return null;
+            }
+        }
         public ValueType ValueType
         {
             get { return this._valueType; }
         }
-        public bool OptionalValues
+        public bool AreValuesOptional
         {
-            get { return this._optionalValues; }
+            get { return this._areValuesOptional; }
         }
         public bool IsOptional
         {
@@ -52,7 +62,7 @@ namespace cmdValidator
             this._allowedValues = new List<string>(values);
             this._parsedValues = new List<string>();
             this._valueType = valueType;
-            this._optionalValues = optionalValues;
+            this._areValuesOptional = optionalValues;
             this._isNotRequired = isNotRequired;
             this._isCmd = isCmd;
         }
@@ -69,31 +79,24 @@ namespace cmdValidator
         {
             string str = "";
             str = str + "Identifiers: " + this.GetStringEntries(this._identifiers);
-            str = str + ", PredefinedValues: " + this.GetStringEntries(this._allowedValues);
+            str = str + ", AllowedValues: " + this.GetStringEntries(this._allowedValues);
             str = str + ", ParsedValues: " + this.GetStringEntries(this._parsedValues);
             str = str + ", ValueType: " + this._valueType.ToString();
-            str = str + ", Optional Values: " + this._optionalValues.ToString();
+            str = str + ", Optional Values: " + this._areValuesOptional.ToString();
             str = str + ", IsCmd: " + this._isCmd.ToString();
-            str = str + ", Is Not Required: " + this._isNotRequired.ToString();
+            str = str + ", IsNotRequired: " + this._isNotRequired.ToString();
             return str;
         }
         private string GetStringEntries(IEnumerable<string> strings)
         {
             string text = "";
             foreach (string current in strings)
-            {
                 text = text + current + ", ";
-            }
-            string result;
+
             if (text == "")
-            {
-                result = "None, ";
-            }
+                return "";
             else
-            {
-                result = text;
-            }
-            return result;
+                return text.Substring(0, text.Length - 2);
         }
     }
 }

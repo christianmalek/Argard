@@ -41,6 +41,7 @@
     <Compile Include="cmdValidator\ArgumentScheme.cs" />
     <Compile Include="cmdValidator\ArgumentSet.cs" />
     <Compile Include="cmdValidator\InvalidArgumentSchemeException.cs" />
+    <Compile Include="cmdValidator\InvalidArgumentSetException.cs" />
     <Compile Include="cmdValidator\Validator.cs" />
     <Compile Include="cmdValidator\GetArguments.cs" />
     <Compile Include="cmdValidator\ValueType.cs" />

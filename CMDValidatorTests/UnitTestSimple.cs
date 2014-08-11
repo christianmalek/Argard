@@ -89,5 +89,102 @@ namespace CMDValidatorTests
 
             Assert.AreEqual(true, GetRaisingResults());
         }
+
+        [TestMethod]
+        public void TestMethodSimple5()
+        {
+            bool exceptionThrown = false;
+
+            InitializeTest();
+
+            Validator validator = new Validator(false);
+            validator.AddArgumentSet("list", expectedFunc);
+            validator.AddArgumentSet("install", dummyFunc);
+
+            try
+            {
+                validator.AddArgumentSet("list", expectedFunc);
+            }
+            catch(InvalidArgumentSetException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TestMethodSimple6()
+        {
+            bool exceptionThrown = false;
+
+            InitializeTest();
+
+            Validator validator = new Validator(false, true);
+            validator.AddArgumentSet("list", expectedFunc);
+            validator.AddArgumentSet("install", dummyFunc);
+
+            try
+            {
+                validator.AddArgumentSet("lIsT", expectedFunc);
+            }
+            catch (InvalidArgumentSetException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TestMethodSimple7()
+        {
+            bool exceptionThrown = false;
+
+            InitializeTest();
+
+            Validator validator = new Validator(false, false);
+            validator.AddArgumentSet("list", expectedFunc);
+            validator.AddArgumentSet("install", dummyFunc);
+
+            try
+            {
+                validator.AddArgumentSet("lIsT", expectedFunc);
+            }
+            catch (InvalidArgumentSetException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.AreEqual(false, exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TestMethodSimple8()
+        {
+            InitializeTest();
+
+            Validator validator = new Validator(false, true);
+            validator.AddArgumentSet("list", expectedFunc);
+            validator.AddArgumentSet("install", dummyFunc);
+
+            validator.CheckArgs("LIST");
+
+            Assert.AreEqual(true, GetRaisingResults());
+        }
+
+        [TestMethod]
+        public void TestMethodSimple9()
+        {
+            InitializeTest();
+
+            Validator validator = new Validator(false, false);
+            validator.AddArgumentSet("list", expectedFunc);
+            validator.AddArgumentSet("install", dummyFunc);
+
+            validator.CheckArgs("LIST");
+
+            Assert.AreEqual(false, GetRaisingResults());
+        }
     }
 }

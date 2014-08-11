@@ -16,11 +16,10 @@ namespace cmdValidator
         public ArgumentSet(IEnumerable<ArgumentScheme> argSchemes, GetArguments getArgs)
         {
             this._argSchemes = argSchemes.Cast<ArgumentScheme>().ToArray<ArgumentScheme>();
+
             if (!this.IsValid())
-            {
-                //TODO: Exception anpassen!
-                throw new Exception("Es ist mindestens ein Argumentschema notwendig.");
-            }
+                throw new InvalidArgumentSetException("At least one argument scheme is required.");
+
             this.GetArgs += getArgs;
         }
         public void TriggerEvent(string[] unknownOptions)
