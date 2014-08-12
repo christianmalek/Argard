@@ -186,5 +186,55 @@ namespace CMDValidatorTests
 
             Assert.AreEqual(false, GetRaisingResults());
         }
+
+        [TestMethod]
+        public void TestMethodSimple10()
+        {
+            bool exceptionThrown = false;
+
+            InitializeTest();
+
+            Validator validator = new Validator(false);
+
+            try
+            {
+                validator.AddArgumentSet("(list)", expectedFunc);
+            }
+            catch (InvalidArgumentSetException)
+            {
+                exceptionThrown = true;
+            }
+
+            validator.AddArgumentSet("install", dummyFunc);
+
+            validator.CheckArgs("list");
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TestMethodSimple11()
+        {
+            bool exceptionThrown = false;
+
+            InitializeTest();
+
+            Validator validator = new Validator(false);
+
+            try
+            {
+                validator.AddArgumentSet("(list), xyz", expectedFunc);
+            }
+            catch(InvalidArgumentSetException)
+            {
+                exceptionThrown = true;
+            }
+
+            validator.AddArgumentSet("install", dummyFunc);
+
+            validator.CheckArgs("list");
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
     }
 }

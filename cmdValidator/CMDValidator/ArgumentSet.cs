@@ -13,36 +13,45 @@ namespace cmdValidator
             get { return this._argSchemes; }
             set { this._argSchemes = value; }
         }
+
         public ArgumentSet(IEnumerable<ArgumentScheme> argSchemes, GetArguments getArgs)
         {
             this._argSchemes = argSchemes.Cast<ArgumentScheme>().ToArray<ArgumentScheme>();
-
-            if (!this.IsValid())
-                throw new InvalidArgumentSetException("At least one argument scheme is required.");
-
+            this.Validate();
             this.GetArgs += getArgs;
         }
+
         public void TriggerEvent(string[] unknownOptions)
         {
             if (this.GetArgs != null)
                 this.GetArgs(new ArgumentSetArgs(this, unknownOptions));
         }
 
-        private bool IsValid()
+        //validates the argument schemes on required argument schemes
+        //and the cmd identifier on non-optionality
+        private void Validate()
         {
-            ArgumentScheme[] argSchemes = this._argSchemes;
-            bool result;
-            for (int i = 0; i < argSchemes.Length; i++)
-            {
-                ArgumentScheme argumentScheme = argSchemes[i];
-                if (!argumentScheme.IsOptional)
-                {
-                    result = true;
-                    return result;
-                }
-            }
-            result = false;
-            return result;
+            if(!HasRequiredArgumentScheme())
+                throw new InvalidArgumentSetException("At least one argument scheme is required.");
+
+            if (!IsCmdRequired())
+                throw new InvalidArgumentSetException("The command argument scheme must not be optional.");
+        }
+
+        //checks if at least one argument scheme is required
+        private bool HasRequiredArgumentScheme()
+        {
+            foreach (var argScheme in this._argSchemes)
+                if (!argScheme.IsOptional)
+                    return true;
+
+            return false;
+        }
+
+        //checks if the cmd argument scheme is required
+        private bool IsCmdRequired()
+        {
+            return this._argSchemes.Length > 0 && !this._argSchemes[0].IsOptional;
         }
 
         public ArgumentScheme GetCmd()

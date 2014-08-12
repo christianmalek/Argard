@@ -9,7 +9,7 @@ namespace cmdValidator
         private List<string> _parsedValues;
         private ValueType _valueType;
         private bool _areValuesOptional;
-        private bool _isNotRequired;
+        private bool _isOptional;
         private bool _isCmd;
         public List<string> Identifiers
         {
@@ -44,7 +44,7 @@ namespace cmdValidator
         }
         public bool IsOptional
         {
-            get { return this._isNotRequired; }
+            get { return this._isOptional; }
         }
         public bool IsCmd
         {
@@ -63,7 +63,7 @@ namespace cmdValidator
             this._parsedValues = new List<string>();
             this._valueType = valueType;
             this._areValuesOptional = optionalValues;
-            this._isNotRequired = isNotRequired;
+            this._isOptional = isNotRequired;
             this._isCmd = isCmd;
         }
         public void AddIdentifier(string identifier)
@@ -82,9 +82,9 @@ namespace cmdValidator
             str = str + ", AllowedValues: " + this.GetStringEntries(this._allowedValues);
             str = str + ", ParsedValues: " + this.GetStringEntries(this._parsedValues);
             str = str + ", ValueType: " + this._valueType.ToString();
-            str = str + ", Optional Values: " + this._areValuesOptional.ToString();
+            str = str + ", AreValuesOptional: " + this._areValuesOptional.ToString();
             str = str + ", IsCmd: " + this._isCmd.ToString();
-            str = str + ", IsNotRequired: " + this._isNotRequired.ToString();
+            str = str + ", IsOptional: " + this._isOptional.ToString();
             return str;
         }
         private string GetStringEntries(IEnumerable<string> strings)
