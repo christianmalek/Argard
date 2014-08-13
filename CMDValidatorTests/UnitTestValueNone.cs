@@ -39,7 +39,7 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("list", dummyFunc);
             validator.AddArgumentSet("install", expectedFunc);
             validator.AddArgumentSet("show", dummyFunc);
@@ -54,7 +54,7 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("list", dummyFunc);
             validator.AddArgumentSet("install", expectedFunc);
             validator.AddArgumentSet("show", dummyFunc);

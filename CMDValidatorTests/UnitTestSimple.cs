@@ -39,7 +39,7 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -53,7 +53,7 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("list", dummyFunc);
             validator.AddArgumentSet("install", expectedFunc);
 
@@ -67,7 +67,7 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -81,7 +81,7 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("    list     ", expectedFunc);
             validator.AddArgumentSet("  install  ", dummyFunc);
 
@@ -97,7 +97,7 @@ namespace CMDValidatorTests
 
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -120,7 +120,7 @@ namespace CMDValidatorTests
 
             InitializeTest();
 
-            Validator validator = new Validator(false, true);
+            Parser validator = new Parser(false, true);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -143,7 +143,7 @@ namespace CMDValidatorTests
 
             InitializeTest();
 
-            Validator validator = new Validator(false, false);
+            Parser validator = new Parser(false, false);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -164,7 +164,7 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false, true);
+            Parser validator = new Parser(false, true);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -178,7 +178,7 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false, false);
+            Parser validator = new Parser(false, false);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -194,7 +194,7 @@ namespace CMDValidatorTests
 
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
 
             try
             {
@@ -219,7 +219,7 @@ namespace CMDValidatorTests
 
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
 
             try
             {

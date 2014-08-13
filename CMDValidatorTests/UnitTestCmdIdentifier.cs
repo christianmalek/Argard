@@ -39,7 +39,7 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("list", dummyFunc);
             validator.AddArgumentSet("inst[all]", expectedFunc);
 
@@ -53,7 +53,7 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("list", dummyFunc);
             validator.AddArgumentSet("inst[all]", expectedFunc);
 
@@ -67,7 +67,7 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -83,7 +83,7 @@ namespace CMDValidatorTests
 
             bool exceptionThrown = false;
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("list", expectedFunc);
 
             try

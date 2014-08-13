@@ -42,12 +42,12 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("list  : x", expectedFunc);
 
             validator.CheckArgs("list x");
 
-            bool actual = args.CMD["list"].FirstValue == "x";
+            bool actual = args.CMD["list"].ArgumentValues.FirstValue == "x";
 
             Assert.AreEqual(true, actual);
         }
@@ -57,12 +57,12 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("list  : x |   y |   z", expectedFunc);
 
             validator.CheckArgs("list y");
 
-            bool actual = args.CMD["list"].ParsedValues[0] == "y";
+            bool actual = args.CMD["list"].ArgumentValues.ParsedValues[0] == "y";
 
             Assert.AreEqual(true, actual);
         }
@@ -72,12 +72,12 @@ namespace CMDValidatorTests
         {
             InitializeTest();
 
-            Validator validator = new Validator(false);
+            Parser validator = new Parser(false);
             validator.AddArgumentSet("l[i]st  :( x |   y | z  | n     )", expectedFunc);
 
             validator.CheckArgs("lst z");
 
-            bool actual = args.CMD["list"].ParsedValues[0] == "z";
+            bool actual = args.CMD["list"].ArgumentValues.ParsedValues[0] == "z";
 
             Assert.AreEqual(true, actual);
         }
