@@ -26,31 +26,18 @@ namespace cmdValidator
             get { return this._isCmd; }
         }
 
-        public ArgumentScheme(IEnumerable<string> identifiers, ArgumentValues argumentValues, bool isNotRequired, bool isCmd)
+        public ArgumentScheme(IEnumerable<string> identifiers, bool isNotRequired, bool isCmd, ArgumentValues argumentValues)
         {
-            this.Initialize(identifiers, argumentValues, isNotRequired, isCmd);
+            this.Initialize(identifiers, isNotRequired, isCmd, argumentValues);
         }
 
-        private void Initialize(IEnumerable<string> identifiers, ArgumentValues argumentValues, bool isNotRequired, bool isCmd)
+        private void Initialize(IEnumerable<string> identifiers, bool isNotRequired, bool isCmd, ArgumentValues argumentValues)
         {
             this._identifiers = new List<string>(identifiers);
             this._isOptional = isNotRequired;
             this._isCmd = isCmd;
             this._argumentValues = argumentValues;
         }
-
-        //public override string ToString()
-        //{
-        //    string str = "";
-        //    str = str + "Identifiers: " + this.GetStringEntries(this._identifiers);
-        //    str = str + ", AllowedValues: " + this.GetStringEntries(this._allowedValues);
-        //    str = str + ", ParsedValues: " + this.GetStringEntries(this._parsedValues);
-        //    str = str + ", ValueType: " + this._valueType.ToString();
-        //    str = str + ", AreValuesOptional: " + this._areValuesOptional.ToString();
-        //    str = str + ", IsCmd: " + this._isCmd.ToString();
-        //    str = str + ", IsOptional: " + this._isOptional.ToString();
-        //    return str;
-        //}
 
         private string GetStringEntries(IEnumerable<string> strings)
         {

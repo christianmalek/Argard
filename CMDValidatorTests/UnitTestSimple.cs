@@ -236,5 +236,26 @@ namespace CMDValidatorTests
 
             Assert.AreEqual(true, exceptionThrown);
         }
+
+        [TestMethod]
+        public void TestMethodSimple12()
+        {
+            bool exceptionThrown = false;
+
+            InitializeTest();
+
+            Parser validator = new Parser(false);
+
+            try
+            {
+                validator.AddArgumentSet("list, ()", expectedFunc);
+            }
+            catch (InvalidArgumentSchemeException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
     }
 }

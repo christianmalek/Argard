@@ -317,14 +317,14 @@ namespace cmdValidator
                     ArgumentValues argValueList = this.GetValues(valueScheme);
                     IEnumerable<string> identifiers = this.GetIdentifiers(argumentSchemeString.Substring(0, num));
 
-                    return new ArgumentScheme(identifiers, argValueList, isOptional, isCmd);
+                    return new ArgumentScheme(identifiers, isOptional, isCmd, argValueList);
 				}
 				else
 				{
                     IEnumerable<string> identifiers = this.GetIdentifiers(argumentSchemeString);
                     ArgumentValues argumentValues = new ArgumentValues(ValueType.None, false, new List<string>());
 
-                    return new ArgumentScheme(identifiers, argumentValues, isOptional, isCmd);
+                    return new ArgumentScheme(identifiers, isOptional, isCmd, argumentValues);
 				}
 			}
 
@@ -355,40 +355,6 @@ namespace cmdValidator
                 return new ArgumentValues(ValueType.Single, areValuesOptional, values);
             }
         }
-
-        //private IEnumerable<string> GetValues(string valueScheme, out bool areValuesOptional, out ValueType valueType)
-        //{
-        //    valueScheme = valueScheme.ToLower();
-        //    if (this.CheckFirstAndLastCharOfString('(', ')', valueScheme))
-        //    {
-        //        areValuesOptional = true;
-        //        valueScheme = this.RemoveLastAndFirstChar(valueScheme);
-        //    }
-        //    else
-        //        areValuesOptional = false;
-
-        //    if (valueScheme == "^list" || valueScheme == "^l")
-        //    {
-        //        valueType = ValueType.List;
-        //        return new string[0];
-        //    }
-        //    else if (valueScheme == "^single" || valueScheme == "^s")
-        //    {
-        //        valueType = ValueType.Single;
-        //        return new string[0];
-        //    }
-        //    else
-        //    {
-        //        valueType = ValueType.Single;
-        //        string[] values = valueScheme.Split(new char[]{'|'});
-
-        //        //remove all spaces at the beginning and the end
-        //        for (int i = 0; i < values.Length; i++)
-        //            values[i] = values[i].Trim();
-
-        //        return values;
-        //    }
-        //}
 
 		private IEnumerable<string> GetIdentifiers(string multipleIdentifierScheme)
 		{
@@ -442,6 +408,7 @@ namespace cmdValidator
 			}
 			return list;
 		}
+
 		private string RemoveLastAndFirstChar(string text)
 		{
 			string result;
@@ -455,6 +422,7 @@ namespace cmdValidator
 			}
 			return result;
 		}
+
 		private bool CheckFirstAndLastCharOfString(char firstChar, char lastChar, string text)
 		{
 			return text.Length > 1 && text[0] == firstChar && text[text.Length - 1] == lastChar;
