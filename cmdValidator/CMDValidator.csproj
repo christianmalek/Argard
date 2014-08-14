@@ -42,8 +42,10 @@
     <Compile Include="cmdValidator\ArgumentSet.cs" />
     <Compile Include="cmdValidator\ArgumentSetValidator.cs" />
     <Compile Include="cmdValidator\ArgumentValues.cs" />
-    <Compile Include="cmdValidator\InvalidArgumentSchemeException.cs" />
-    <Compile Include="cmdValidator\InvalidArgumentSetException.cs" />
+    <Compile Include="cmdValidator\Exception\ConflictingFlagNamesException.cs" />
+    <Compile Include="cmdValidator\Exception\MultipleUseOfIdentifierNameException.cs" />
+    <Compile Include="cmdValidator\Exception\InvalidArgumentSchemeException.cs" />
+    <Compile Include="cmdValidator\Exception\InvalidArgumentSetException.cs" />
     <Compile Include="cmdValidator\ArgumentSchemeValidator.cs" />
     <Compile Include="cmdValidator\Parser.cs" />
     <Compile Include="cmdValidator\GetArguments.cs" />

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using cmdValidator;
+using cmdValidator.Exception;
 
-namespace CMDValidatorTests
+namespace cmdValidatorTests
 {
     [TestClass]
     public class UnitTestSimple

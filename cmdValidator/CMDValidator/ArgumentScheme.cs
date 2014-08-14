@@ -24,6 +24,21 @@ namespace cmdValidator
         public bool IsCmd
         {
             get { return this._isCmd; }
+        
+        }
+        public bool IsFlag
+        {
+            get
+            {
+                if (this._isCmd == false && this._argumentValues.ValueType == ValueType.None)
+                {
+                    foreach (var identifier in this._identifiers)
+                        if (identifier.Length > 1)
+                            return false;
+                    return true;
+                }
+                return false;
+            }
         }
 
         public ArgumentScheme(IEnumerable<string> identifiers, bool isNotRequired, bool isCmd, ArgumentValues argumentValues)

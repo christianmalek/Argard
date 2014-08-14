@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace cmdValidator
+namespace cmdValidator.Exception
 {
-    public class InvalidArgumentSetException : Exception
+    public class InvalidArgumentSetException : System.Exception
     {
         private const string MESSAGE_INVALID_ARGUMENT_SET = "The argument set is invalid.";
 

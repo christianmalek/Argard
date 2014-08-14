@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using cmdValidator.Exception;
 using cmdValidator;
+using cmdValidator.Exception;
 
 namespace cmdValidatorTests
 {
     [TestClass]
-    public class UnitTestCmdIdentifier
+    public class UnitTestFlags
     {
         #region Test requirements
         bool expectedEventGotRaised;
@@ -36,62 +36,82 @@ namespace cmdValidatorTests
         #endregion
 
         [TestMethod]
-        public void TestMethodCmdIdentifiers1()
+        public void TestMethodFlags1()
         {
-            InitializeTest();
-
-            Parser validator = new Parser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("inst[all]", expectedFunc);
-
-            validator.CheckArgs("inst");
-
-            Assert.AreEqual(true, GetRaisingResults());
-        }
-
-        [TestMethod]
-        public void TestMethodCmdIdentifiers2()
-        {
-            InitializeTest();
-
-            Parser validator = new Parser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("inst[all]", expectedFunc);
-
-            validator.CheckArgs("install");
-
-            Assert.AreEqual(true, GetRaisingResults());
-        }
-
-        [TestMethod]
-        public void TestMethodCmdIdentifiers3()
-        {
-            InitializeTest();
-
-            Parser validator = new Parser(false);
-            validator.AddArgumentSet("list", expectedFunc);
-            validator.AddArgumentSet("install", dummyFunc);
-
-            validator.CheckArgs("all");
-
-            Assert.AreEqual(false, GetRaisingResults());
-        }
-
-        [TestMethod]
-        public void TestMethodCmdIdentifiers4()
-        {
-            InitializeTest();
-
             bool exceptionThrown = false;
 
+            InitializeTest();
+
             Parser validator = new Parser(false);
-            validator.AddArgumentSet("list", expectedFunc);
 
             try
             {
-                validator.AddArgumentSet("inst [all]", dummyFunc);
+                validator.AddArgumentSet("list , l , i , s, t", expectedFunc);
             }
-            catch (InvalidArgumentSchemeException)
+            catch (ConflictingFlagNamesException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TestMethodFlags2()
+        {
+            bool exceptionThrown = false;
+
+            InitializeTest();
+
+            Parser validator = new Parser(false);
+
+            try
+            {
+                validator.AddArgumentSet("l[i]st , l, s, t", expectedFunc);
+            }
+            catch (ConflictingFlagNamesException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TestMethodFlags3()
+        {
+            bool exceptionThrown = false;
+
+            InitializeTest();
+
+            Parser validator = new Parser(false);
+
+            try
+            {
+                validator.AddArgumentSet("l[i]st|showall , s, h, o, w, a, l", expectedFunc);
+            }
+            catch (ConflictingFlagNamesException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TestMethodFlags4()
+        {
+            bool exceptionThrown = false;
+
+            InitializeTest();
+
+            Parser validator = new Parser(false);
+
+            try
+            {
+                validator.AddArgumentSet("list, x|s, k|l, m|t, o|t", expectedFunc);
+            }
+            catch (MultipleUseOfIdentifierNameException)
             {
                 exceptionThrown = true;
             }

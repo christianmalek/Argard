@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using cmdValidator;
 
-namespace CMDValidatorTests
+namespace cmdValidatorTests
 {
     [TestClass]
     public class UnitTestValueNone
