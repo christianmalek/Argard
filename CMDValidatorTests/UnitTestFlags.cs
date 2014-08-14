@@ -118,5 +118,29 @@ namespace cmdValidatorTests
 
             Assert.AreEqual(true, exceptionThrown);
         }
+
+        [TestMethod]
+        public void TestMethodFlags5()
+        {
+            InitializeTest();
+
+            Parser validator = new Parser(false);
+            validator.AddArgumentSet("l[i]st , l, t", expectedFunc);
+            validator.CheckArgs("lst -lt");
+
+            Assert.AreEqual(true, expectedEventGotRaised);
+        }
+
+        [TestMethod]
+        public void TestMethodFlags6()
+        {
+            InitializeTest();
+
+            Parser validator = new Parser(false);
+            validator.AddArgumentSet("l[i]st , a, b, c, d, e, test1, test2, abk", expectedFunc);
+            validator.CheckArgs("lst -abed -test1 -test2 -abk -c");
+
+            Assert.AreEqual(true, expectedEventGotRaised);
+        }
     }
 }

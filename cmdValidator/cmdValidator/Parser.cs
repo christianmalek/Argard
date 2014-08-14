@@ -83,16 +83,16 @@ namespace cmdValidator
                     if (argumentSet.GetCmd().Identifiers.Contains(newIdentifier))
                     {
                         string message = "Cmd already exists. It's only allowed to use every cmd one time.";
-                        throw new InvalidArgumentSetException(string.Format("{0}\nduplicative cmd: {1}", message, newIdentifier));
+                        throw new InvalidArgumentSetException(string.Format("{0}\nduplicative cmd: {1}", message, newIdentifier)); //TODO: Exception type is wrong
                     }
 
             this._argumentSets.Add(new ArgumentSet(argumentSchemes, getArgs));
         }
 
-		public bool CheckArgs(string args)
-		{
-			return this.CheckArgs(this.SplitArgs(args).Cast<string>().ToList<string>());
-		}
+        public bool CheckArgs(string args)
+        {
+            return this.CheckArgs(new List<string>(SplitArgs(args)));
+        }
 
 		public bool CheckArgs(List<string> args)
 		{
@@ -122,6 +122,8 @@ namespace cmdValidator
 		{
 			List<ArgumentScheme> list = new List<ArgumentScheme>();
 
+            args = GetFlagSplittedArgs(argSet, args);
+
 			for (int i = 0; i < argSet.ArgSchemes.Length; i++)
 			{
 				ArgumentScheme parsedArgumentScheme = this.GetParsedArgumentScheme(argSet.ArgSchemes[i], ref args);
@@ -135,20 +137,72 @@ namespace cmdValidator
 			return argSet;
 		}
 
+        private List<string> GetFlagSplittedArgs(ArgumentSet argSet, List<string> args)
+        {
+            List<string> splittedArgs = new List<string>();
+            List<string> identifiers = GetAllIdentifiers(argSet);
+
+            foreach(var arg in args)
+            {
+                string optionWithoutPrefix = GetOptionWithoutPrefix(arg);
+                bool isArgAnOption = optionWithoutPrefix != null;
+
+                if(isArgAnOption)
+                {
+                    if (identifiers.Contains(optionWithoutPrefix))
+                        splittedArgs.Add(arg);
+                    else if (ConsistsArgOfFlags(optionWithoutPrefix, identifiers))
+                        foreach (var flag in optionWithoutPrefix.ToCharArray())
+                            splittedArgs.Add(this._optionPrefixes[0] + flag);
+                    else
+                        splittedArgs.Add(arg);
+                }
+                else
+                    splittedArgs.Add(arg);
+            }
+
+            return splittedArgs;
+        }
+
+        private bool ConsistsArgOfFlags(string arg, List<string> identifiers)
+        {
+            foreach (var letter in arg)
+                if (identifiers.Contains(Convert.ToString(letter)) == false)
+                    return false;
+
+            return true;
+        }
+
+        private List<string> GetAllIdentifiers(ArgumentSet argSet)
+        {
+            List<string> identifiers = new List<string>();
+
+            foreach (var argScheme in argSet.ArgSchemes)
+                foreach (var identifier in argScheme.Identifiers)
+                    identifiers.Add(identifier);
+
+            return identifiers;
+        }
+
         private ArgumentScheme GetParsedArgumentScheme(ArgumentScheme argScheme, ref List<string> args)
         {
             bool validCmdIdentifier = false;
             bool validOptionIdentifier = false;
 
+            int argIndex = GetArgIndex(argScheme, args);
+
+            if (argIndex < 0)
+                return null;
+
             //check if identifier is existing and remove it from args
             //otherwise return null and stop it that way from parsing
             if (args.Count > 0)
             {
-                validCmdIdentifier = CheckIfArgIsValidCmdIdentifier(argScheme, args[0]);
-                validOptionIdentifier = CheckIfArgIsValidOptionIdentifier(argScheme, args[0]);
+                validCmdIdentifier = CheckIfArgIsValidCmdIdentifier(argScheme, args[argIndex]);
+                validOptionIdentifier = CheckIfArgIsValidOptionIdentifier(argScheme, args[argIndex]);
 
                 if (validCmdIdentifier || validOptionIdentifier)
-                    args.RemoveAt(0);
+                    args.RemoveAt(argIndex);
                 else
                     return null;
             }
@@ -168,6 +222,20 @@ namespace cmdValidator
             }
 
             return null;
+        }
+
+        private int GetArgIndex(ArgumentScheme argScheme, List<string> args)
+        {
+            for (int i = 0; i < args.Count; i++)
+            {
+                string optionWithoutPrefix = GetOptionWithoutPrefix(args[i]);
+
+                if (optionWithoutPrefix != null && argScheme.Identifiers.Contains(optionWithoutPrefix) ||
+                    argScheme.IsCmd && argScheme.Identifiers.Contains(args[i]))
+                    return i;
+            }
+
+            return -1;
         }
 
         //checks if the passed argument is a cmd identifier of the passed argument scheme
@@ -261,6 +329,16 @@ namespace cmdValidator
 			}
 		}
 
+        private string GetOptionWithoutPrefix(string argument)
+        {
+            int optionPrefixLength = IsOption(argument);
+
+            if (optionPrefixLength > -1)
+                return argument.Substring(optionPrefixLength);
+            else
+                return null;
+        }
+
 		private IEnumerable<ArgumentScheme> ParseArgumentSchemes(string argumentSchemesString)
 		{
 			argumentSchemesString = argumentSchemesString.Trim();
@@ -275,18 +353,18 @@ namespace cmdValidator
                 throw new InvalidArgumentSchemeException("The argument schemes are empty.");
 
             //first argumentScheme is always the cmd
-            list.Add(ParseArgumentScheme(array[0], true));
+            list.Add(GetArgumentScheme(array[0], true));
 
             //every other argumentScheme cannot be the cmd
             for (int i = 1; i < array.Length; i++)
-                list.Add(ParseArgumentScheme(array[i], false));
+                list.Add(GetArgumentScheme(array[i], false));
 
 			return list;
 		}
 
-        private ArgumentScheme ParseArgumentScheme(string argumentSchemeString, bool isCmd)
+        private ArgumentScheme GetArgumentScheme(string argumentSchemeString, bool isCmd)
         {
-            ArgumentScheme argumentScheme = this.GetArgument(argumentSchemeString, isCmd);
+            ArgumentScheme argumentScheme = this.ParseArgumentScheme(argumentSchemeString, isCmd);
 
             if (argumentScheme == null)
                 throw new InvalidArgumentSchemeException(string.Format("Following argument scheme is corrupted:\n\"{0}\"", argumentSchemeString));
@@ -294,7 +372,7 @@ namespace cmdValidator
             return argumentScheme;
         }
 
-		private ArgumentScheme GetArgument(string argumentSchemeString, bool isCmd)
+		private ArgumentScheme ParseArgumentScheme(string argumentSchemeString, bool isCmd)
 		{
 			bool isOptional = this.CheckFirstAndLastCharOfString('(', ')', argumentSchemeString);
 
@@ -373,6 +451,7 @@ namespace cmdValidator
 			}
 			return list;
 		}
+
 		private IEnumerable<string> SplitIdentifiers(string singleIdentifierScheme)
 		{
 			List<string> list = new List<string>();

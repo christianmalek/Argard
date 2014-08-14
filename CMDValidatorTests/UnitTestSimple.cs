@@ -258,5 +258,26 @@ namespace cmdValidatorTests
 
             Assert.AreEqual(true, exceptionThrown);
         }
+
+        [TestMethod]
+        public void TestMethodSimple13()
+        {
+            bool exceptionThrown = false;
+
+            InitializeTest();
+
+            Parser validator = new Parser(false);
+
+            try
+            {
+                validator.AddArgumentSet("list, install, show, install: (^s) ", expectedFunc);
+            }
+            catch (MultipleUseOfIdentifierNameException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
     }
 }

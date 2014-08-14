@@ -18,9 +18,9 @@ namespace DebugProgramme
             //validator.AddArgumentSet("l[i]st:\"s,type:m|g", dummyFunc);
             //validator.AddArgumentSet("l[i]st", dummyFunc);
             //validator.AddArgumentSet("sync:\"l", dummyFunc);
-            validator.AddArgumentSet("install:test , src:(blubb)", dummyFunc);
+            validator.AddArgumentSet("install:test , src:(blubb), x, y, z", dummyFunc);
 
-            validator.CheckArgs("install test -src blubb");
+            validator.CheckArgs("install test -src /xy -z");
         }
 
         static void dummyFunc(ArgumentSetArgs args)
