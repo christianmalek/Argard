@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cmdValidator
 {
-    public class ArgumentValues
+    public class ParameterValues
     {
         ValueType _valueType;
         bool _areValuesOptional;
@@ -41,7 +41,7 @@ namespace cmdValidator
             set { this._parsedValues = value; }
         }
 
-        public ArgumentValues(ValueType valueType, bool areValuesOptional, List<string> allowedValues)
+        public ParameterValues(ValueType valueType, bool areValuesOptional, List<string> allowedValues)
         {
             this._valueType = valueType;
             this._areValuesOptional = areValuesOptional;

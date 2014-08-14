@@ -37,18 +37,22 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cmdValidator\ArgumentSetArgs.cs" />
-    <Compile Include="cmdValidator\ArgumentScheme.cs" />
-    <Compile Include="cmdValidator\ArgumentSet.cs" />
-    <Compile Include="cmdValidator\ArgumentSetValidator.cs" />
-    <Compile Include="cmdValidator\ArgumentValues.cs" />
+    <Compile Include="cmdValidator\Argument.cs" />
+    <Compile Include="cmdValidator\ArgumentParser.cs" />
+    <Compile Include="cmdValidator\IArgumentParser.cs" />
+    <Compile Include="cmdValidator\ParameterParser.cs" />
+    <Compile Include="cmdValidator\ParameterSetArgs.cs" />
+    <Compile Include="cmdValidator\Parameter.cs" />
+    <Compile Include="cmdValidator\ParameterSet.cs" />
+    <Compile Include="cmdValidator\ParameterSetValidator.cs" />
+    <Compile Include="cmdValidator\ParameterValues.cs" />
     <Compile Include="cmdValidator\Exception\ConflictingFlagNamesException.cs" />
     <Compile Include="cmdValidator\Exception\MultipleUseOfIdentifierNameException.cs" />
     <Compile Include="cmdValidator\Exception\InvalidArgumentSchemeException.cs" />
     <Compile Include="cmdValidator\Exception\InvalidArgumentSetException.cs" />
-    <Compile Include="cmdValidator\ArgumentSchemeValidator.cs" />
-    <Compile Include="cmdValidator\Parser.cs" />
-    <Compile Include="cmdValidator\GetArguments.cs" />
+    <Compile Include="cmdValidator\ParameterValidator.cs" />
+    <Compile Include="cmdValidator\ParameterSetParser.cs" />
+    <Compile Include="cmdValidator\OnTrigger.cs" />
     <Compile Include="cmdValidator\ValueType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

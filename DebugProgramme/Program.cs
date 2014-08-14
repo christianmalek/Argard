@@ -11,7 +11,7 @@ namespace DebugProgramme
     {
         static void Main(string[] args)
         {
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             //validator.AddArgumentSet("create:\"s,(dsc|description:\"s),gid:\"s,src|source[s]:\"l", dummyFunc);
             //validator.AddArgumentSet("mod[ify]:\"s,(dsc|description:\"s),(src|source[s]:\"l)", dummyFunc);
             //validator.AddArgumentSet("del[ete]:\"s", dummyFunc);
@@ -23,7 +23,7 @@ namespace DebugProgramme
             validator.CheckArgs("install test -src /xy -z");
         }
 
-        static void dummyFunc(ArgumentSetArgs args)
+        static void dummyFunc(ParameterSetArgs args)
         {
 
         }

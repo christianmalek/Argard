@@ -2,5 +2,5 @@ using System;
 using System.Collections.Generic;
 namespace cmdValidator
 {
-	public delegate void GetArguments(ArgumentSetArgs args);
+	public delegate void OnTrigger(ParameterSetArgs args);
 }

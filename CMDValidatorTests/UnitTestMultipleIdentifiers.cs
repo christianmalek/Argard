@@ -23,12 +23,12 @@ namespace cmdValidatorTests
             return expectedEventGotRaised && !wrongEventGotRaised;
         }
 
-        void dummyFunc(ArgumentSetArgs args)
+        void dummyFunc(ParameterSetArgs args)
         {
             this.wrongEventGotRaised = true;
         }
 
-        void expectedFunc(ArgumentSetArgs args)
+        void expectedFunc(ParameterSetArgs args)
         {
             this.expectedEventGotRaised = true;
         }
@@ -39,7 +39,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("list", dummyFunc);
             validator.AddArgumentSet("install,src", expectedFunc);
             validator.AddArgumentSet("show", dummyFunc);
@@ -54,7 +54,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("list", dummyFunc);
             validator.AddArgumentSet("install,src", expectedFunc);
             validator.AddArgumentSet("show", dummyFunc);
@@ -69,7 +69,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("list", dummyFunc);
             validator.AddArgumentSet("  install   ,   src  ", expectedFunc);
             validator.AddArgumentSet("show", dummyFunc);

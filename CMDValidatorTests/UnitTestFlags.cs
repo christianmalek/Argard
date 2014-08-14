@@ -24,12 +24,12 @@ namespace cmdValidatorTests
             return expectedEventGotRaised && !wrongEventGotRaised;
         }
 
-        void dummyFunc(ArgumentSetArgs args)
+        void dummyFunc(ParameterSetArgs args)
         {
             this.wrongEventGotRaised = true;
         }
 
-        void expectedFunc(ArgumentSetArgs args)
+        void expectedFunc(ParameterSetArgs args)
         {
             this.expectedEventGotRaised = true;
         }
@@ -42,7 +42,7 @@ namespace cmdValidatorTests
 
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
 
             try
             {
@@ -63,7 +63,7 @@ namespace cmdValidatorTests
 
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
 
             try
             {
@@ -84,7 +84,7 @@ namespace cmdValidatorTests
 
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
 
             try
             {
@@ -105,7 +105,7 @@ namespace cmdValidatorTests
 
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
 
             try
             {
@@ -124,7 +124,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("l[i]st , l, t", expectedFunc);
             validator.CheckArgs("lst -lt");
 
@@ -136,7 +136,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("l[i]st , a, b, c, d, e, test1, test2, abk", expectedFunc);
             validator.CheckArgs("lst -abed -test1 -test2 -abk -c");
 

@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 namespace cmdValidator
 {
-    public class ArgumentScheme
+    public class Parameter
     {
         private List<string> _identifiers;
         private bool _isOptional;
         private bool _isCmd;
-        ArgumentValues _argumentValues;
+        ParameterValues _argumentValues;
 
         public List<string> Identifiers
         {
             get { return this._identifiers; }
         }
-        public ArgumentValues ArgumentValues
+        public ParameterValues ArgumentValues
         {
             get { return this._argumentValues; }
         }
@@ -41,12 +41,12 @@ namespace cmdValidator
             }
         }
 
-        public ArgumentScheme(IEnumerable<string> identifiers, bool isNotRequired, bool isCmd, ArgumentValues argumentValues)
+        public Parameter(IEnumerable<string> identifiers, bool isNotRequired, bool isCmd, ParameterValues argumentValues)
         {
             this.Initialize(identifiers, isNotRequired, isCmd, argumentValues);
         }
 
-        private void Initialize(IEnumerable<string> identifiers, bool isNotRequired, bool isCmd, ArgumentValues argumentValues)
+        private void Initialize(IEnumerable<string> identifiers, bool isNotRequired, bool isCmd, ParameterValues argumentValues)
         {
             this._identifiers = new List<string>(identifiers);
             this._isOptional = isNotRequired;

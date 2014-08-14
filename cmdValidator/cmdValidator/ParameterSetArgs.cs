@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace cmdValidator
 {
-    public class ArgumentSetArgs
+    public class ParameterSetArgs
     {
-        public Dictionary<string, ArgumentScheme> CMD { get; private set; }
-        public Dictionary<string, ArgumentScheme> Options { get; private set; }
-        public string[] UnknownParameters { get; private set; }
+        public Dictionary<string, Parameter> CMD { get; private set; }
+        public Dictionary<string, Parameter> Options { get; private set; }
+        public Argument[] UnknownArguments { get; private set; }
 
-        public ArgumentSetArgs(ArgumentSet argumentSet, string[] unknownOptions)
+        public ParameterSetArgs(ParameterSet argumentSet, Argument[] unknownArguments)
         {
-            this.CMD = new Dictionary<string, ArgumentScheme>();
-            this.Options = new Dictionary<string, ArgumentScheme>();
+            this.CMD = new Dictionary<string, Parameter>();
+            this.Options = new Dictionary<string, Parameter>();
 
             //set unknownParameters
-            this.UnknownParameters = unknownOptions;
+            this.UnknownArguments = unknownArguments;
 
             //add all possible identifiers as key for the cmd
             foreach (var identifier in argumentSet.ArgSchemes[0].Identifiers)

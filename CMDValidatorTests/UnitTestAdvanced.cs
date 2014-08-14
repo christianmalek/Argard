@@ -11,7 +11,7 @@ namespace cmdValidatorTests
         #region Test requirements
         bool expectedEventGotRaised;
         bool wrongEventGotRaised;
-        ArgumentSetArgs args;
+        ParameterSetArgs args;
 
         private void InitializeTest()
         {
@@ -25,12 +25,12 @@ namespace cmdValidatorTests
             return expectedEventGotRaised && !wrongEventGotRaised;
         }
 
-        void dummyFunc(ArgumentSetArgs args)
+        void dummyFunc(ParameterSetArgs args)
         {
             this.wrongEventGotRaised = true;
         }
 
-        void expectedFunc(ArgumentSetArgs args)
+        void expectedFunc(ParameterSetArgs args)
         {
             this.expectedEventGotRaised = true;
             this.args = args;
@@ -42,7 +42,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("list  : x", expectedFunc);
 
             validator.CheckArgs("list x");
@@ -57,7 +57,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("list  : x |   y |   z", expectedFunc);
 
             validator.CheckArgs("list y");
@@ -72,7 +72,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("l[i]st  :( x |   y | z  | n     )", expectedFunc);
 
             validator.CheckArgs("lst z");

@@ -24,12 +24,12 @@ namespace cmdValidatorTests
             return expectedEventGotRaised && !wrongEventGotRaised;
         }
 
-        void dummyFunc(ArgumentSetArgs args)
+        void dummyFunc(ParameterSetArgs args)
         {
             this.wrongEventGotRaised = true;
         }
 
-        void expectedFunc(ArgumentSetArgs args)
+        void expectedFunc(ParameterSetArgs args)
         {
             this.expectedEventGotRaised = true;
         }
@@ -40,7 +40,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -54,7 +54,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("list", dummyFunc);
             validator.AddArgumentSet("install", expectedFunc);
 
@@ -68,7 +68,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -82,7 +82,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("    list     ", expectedFunc);
             validator.AddArgumentSet("  install  ", dummyFunc);
 
@@ -98,7 +98,7 @@ namespace cmdValidatorTests
 
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -121,7 +121,7 @@ namespace cmdValidatorTests
 
             InitializeTest();
 
-            Parser validator = new Parser(false, true);
+            ParameterSetParser validator = new ParameterSetParser(false, true);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -144,7 +144,7 @@ namespace cmdValidatorTests
 
             InitializeTest();
 
-            Parser validator = new Parser(false, false);
+            ParameterSetParser validator = new ParameterSetParser(false, false);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -165,7 +165,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false, true);
+            ParameterSetParser validator = new ParameterSetParser(false, true);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -179,7 +179,7 @@ namespace cmdValidatorTests
         {
             InitializeTest();
 
-            Parser validator = new Parser(false, false);
+            ParameterSetParser validator = new ParameterSetParser(false, false);
             validator.AddArgumentSet("list", expectedFunc);
             validator.AddArgumentSet("install", dummyFunc);
 
@@ -195,7 +195,7 @@ namespace cmdValidatorTests
 
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
 
             try
             {
@@ -220,7 +220,7 @@ namespace cmdValidatorTests
 
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
 
             try
             {
@@ -245,7 +245,7 @@ namespace cmdValidatorTests
 
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
 
             try
             {
@@ -266,7 +266,7 @@ namespace cmdValidatorTests
 
             InitializeTest();
 
-            Parser validator = new Parser(false);
+            ParameterSetParser validator = new ParameterSetParser(false);
 
             try
             {

@@ -7,9 +7,9 @@ using cmdValidator.Exception;
 
 namespace cmdValidator
 {
-    class ArgumentSetValidator
+    class ParameterSetValidator
     {
-        public void Validate(ArgumentScheme[] argumentSchemes)
+        public void Validate(Parameter[] argumentSchemes)
         {
             bool hasRequiredArgumentScheme = HasRequiredArgumentScheme(argumentSchemes);
             bool isCmdRequired = IsCmdRequired(argumentSchemes);
@@ -30,7 +30,7 @@ namespace cmdValidator
         }
 
         //checks if at least one argument scheme is required
-        private bool HasRequiredArgumentScheme(ArgumentScheme[] argumentSchemes)
+        private bool HasRequiredArgumentScheme(Parameter[] argumentSchemes)
         {
             foreach (var argScheme in argumentSchemes)
                 if (argScheme.IsOptional == false)
@@ -40,14 +40,14 @@ namespace cmdValidator
         }
 
         //checks if the cmd argument scheme is required
-        private bool IsCmdRequired(ArgumentScheme[] argumentSchemes)
+        private bool IsCmdRequired(Parameter[] argumentSchemes)
         {
             return argumentSchemes.Length > 0 && argumentSchemes[0].IsOptional == false;
         }
 
         //checks if combined flag identifiers could conflict with other identifiers
         //to prevent ambiguous names
-        private string AreFlagsCollidingWithNonFlagNames(ArgumentScheme[] argumentSchemes)
+        private string AreFlagsCollidingWithNonFlagNames(Parameter[] argumentSchemes)
         {
             List<string> flags = GetFlags(argumentSchemes);
             List<string> nonFlags = GetNonFlags(argumentSchemes);
@@ -74,7 +74,7 @@ namespace cmdValidator
             return null;
         }
 
-        private List<string> GetFlags(ArgumentScheme[] argumentSchemes)
+        private List<string> GetFlags(Parameter[] argumentSchemes)
         {
             List<string> flags = new List<string>();
 
@@ -86,7 +86,7 @@ namespace cmdValidator
             return flags;
         }
 
-        private List<string> GetNonFlags(ArgumentScheme[] argumentSchemes)
+        private List<string> GetNonFlags(Parameter[] argumentSchemes)
         {
             List<string> nonFlags = new List<string>();
 
@@ -98,7 +98,7 @@ namespace cmdValidator
             return nonFlags;
         }
 
-        private string AreIdentifiersUnique(ArgumentScheme[] argumentSchemes)
+        private string AreIdentifiersUnique(Parameter[] argumentSchemes)
         {
             for (int i = 0; i < argumentSchemes.Length; i++)
             {
