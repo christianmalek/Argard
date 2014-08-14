@@ -22,19 +22,18 @@ Installation and usage
             {
                 static void Main(string[] args)
                 {
-                    //create a new validator
+                    //create a new parser
                     //the ignoreUnknownParameters set to false will prevent,
                     //that events will be raised when there are unknown parameters
-                    Validator validator = new Validator(false);
+                    Parser parser = new Parser(false);
                     
                     //add an argument set
-                    validator.AddArgumentSet("hello", hello);
+                    parser.AddArgumentSet("hello", hello);
                     
                     //add another argument set
-                    validator.AddArgumentSet("goodbye", goodBye);
+                    parser.AddArgumentSet("goodbye", goodBye);
         
                     //pass the commandline args
-                    validator.CheckArgs(args);
                 }
         
                 static void hello(ArgumentSetArgs args)
@@ -74,7 +73,7 @@ In this advanced tutorial you will learn advanced possibilties of the cmdValidat
     public delegate void GetArguments(ArgumentSetArgs args);
   
     ```
-4. Pass the args which should be checked on matching to the argument sets. Therefore you need to call the *CheckArgs(...)* method of the *Validator*. There are 2 overloadings of. The first accepts an string array, the second a string. Valid strings could be:
+4. Pass the args which should be checked on matching to the argument sets. Therefore you need to call the *CheckArgs(...)* method of the *Parser*. There are 2 overloadings of. The first accepts an string array, the second a string. Valid strings could be:
 
     - **multiply 3.1519 15**
     - **remove someApp.exe someOtherApp.exe yetAnotherApp.exe --quiet**
@@ -87,14 +86,14 @@ In this advanced tutorial you will learn advanced possibilties of the cmdValidat
         //...
         
         //1. create the instance
-        Validator validator = new Validator(false);
+        Parser parser = new Parser(false);
     
         //2. add the argument set
-        validator.AddArgumentSet("install, name:^s, destination:^s, (silent)", Install);
+        parser.AddArgumentSet("install, name:^s, destination:^s, (silent)", Install);
         
         //4. create args and call CheckArgs(...)
         string args = "install appXYZ.exe --destination "C:\\folder with spaces" --silent";
-        validator.CheckArgs(args);
+        parser.CheckArgs(args);
         
         //3. declare a function
         void Install(GetArgumentArgs args)
