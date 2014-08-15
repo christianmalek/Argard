@@ -55,6 +55,7 @@
     <Compile Include="Argard\ParameterValidator.cs" />
     <Compile Include="Argard\ParameterSetParser.cs" />
     <Compile Include="Argard\OnTrigger.cs" />
+    <Compile Include="Argard\Pattern.cs" />
     <Compile Include="Argard\StringHelper.cs" />
     <Compile Include="Argard\ValueParser.cs" />
     <Compile Include="Argard\ValueType.cs" />

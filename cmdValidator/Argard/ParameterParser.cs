@@ -10,7 +10,6 @@ namespace Argard
 {
     class ParameterParser
     {
-        private const string _identifierPattern = "(?:(?:(\\w+)(\\[\\w+\\])?(\\w*))|(?:(\\[\\w+\\])(\\w+)))";
         private ParameterValidator _validator;
         private IdentifierParser _identifierParser;
         private ValueParser _valueParser;

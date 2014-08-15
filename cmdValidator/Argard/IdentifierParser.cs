@@ -9,8 +9,6 @@ namespace Argard
 {
     class IdentifierParser
     {
-        private const string _identifierPattern = "(?:(?:(\\w+)(\\[\\w+\\])?(\\w*))|(?:(\\[\\w+\\])(\\w+)))";
-
         public IEnumerable<string> GetIdentifiers(string multipleIdentifierScheme)
         {
             List<string> list = new List<string>();
@@ -30,7 +28,7 @@ namespace Argard
         private IEnumerable<string> SplitIdentifiers(string singleIdentifierScheme)
         {
             List<string> list = new List<string>();
-            Regex regex = new Regex(_identifierPattern);
+            Regex regex = new Regex(Pattern.IdentifierPattern);
             Match match = regex.Match(singleIdentifierScheme);
             string[] array = new string[5];
             for (int i = 0; i < 5; i++)

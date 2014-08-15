@@ -9,11 +9,9 @@ namespace Argard
 {
     public class ParameterValidator
     {
-        private const string _argumentPattern = "\\A(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+)))(?:\\|(?:(?:(?:\\w+)(?:\\[\\w+\\])?(?:\\w*))|(?:(?:\\[\\w+\\])(?:\\w+))))*(?:(?::\\([^|]+(?:\\|[^|]+)*\\))|(?:\\s*:[^|]+(?:\\|[^|]+)*))?\\Z";
-
         public bool Validate(string argumentSchemeString)
         {
-            return Regex.IsMatch(argumentSchemeString, ParameterValidator._argumentPattern);
+            return Regex.IsMatch(argumentSchemeString, Pattern.ParameterPattern);
         }
     }
 }
