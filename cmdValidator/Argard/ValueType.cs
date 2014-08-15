@@ -1,5 +1,5 @@
 using System;
-namespace cmdValidator
+namespace Argard
 {
 	public enum ValueType
 	{

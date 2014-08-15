@@ -61,9 +61,9 @@
     <Compile Include="UnitTestValueSingle.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\cmdValidator\cmdValidator.csproj">
+    <ProjectReference Include="..\cmdValidator\Argard.csproj">
       <Project>{02ee9bf0-be89-4db1-af81-9d95bc6db9a2}</Project>
-      <Name>cmdValidator</Name>
+      <Name>Argard</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

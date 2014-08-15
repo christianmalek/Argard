@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using cmdValidator;
+using Argard;
 
 namespace cmdValidatorTests
 {
@@ -40,9 +40,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install");
 
@@ -55,9 +55,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install angularjs");
 

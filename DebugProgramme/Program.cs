@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using cmdValidator;
+using Argard;
 
 namespace DebugProgramme
 {
@@ -11,16 +11,16 @@ namespace DebugProgramme
     {
         static void Main(string[] args)
         {
-            ParameterSetParser validator = new ParameterSetParser(false);
+            ParameterSetParser parser = new ParameterSetParser(false);
             //validator.AddArgumentSet("create:\"s,(dsc|description:\"s),gid:\"s,src|source[s]:\"l", dummyFunc);
             //validator.AddArgumentSet("mod[ify]:\"s,(dsc|description:\"s),(src|source[s]:\"l)", dummyFunc);
             //validator.AddArgumentSet("del[ete]:\"s", dummyFunc);
             //validator.AddArgumentSet("l[i]st:\"s,type:m|g", dummyFunc);
             //validator.AddArgumentSet("l[i]st", dummyFunc);
             //validator.AddArgumentSet("sync:\"l", dummyFunc);
-            validator.AddArgumentSet("install:test , src:(blubb), x, y, z", dummyFunc);
+            parser.AddParameterSet("install|add", dummyFunc);
 
-            validator.CheckArgs("install test -src /xy -z");
+            parser.CheckArgs("install");
         }
 
         static void dummyFunc(ParameterSetArgs args)

@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace cmdValidator
+namespace Argard
 {
     class ArgumentParser : IArgumentParser
     {
         private string[] _optionPrefixes;
+        private const string _stringSplitPattern = "(\"([^\"]+)\"|[^(\\s|,)]+),?";
 
         public ArgumentParser()
             : this(new string[] { "--", "-", "/" })
@@ -55,6 +57,23 @@ namespace cmdValidator
                     return this._optionPrefixes[i].Length;
 
             return -1;
+        }
+
+        public List<string> SplitArgs(string args)
+        {
+            List<string> splittedArgs = new List<string>();
+
+            foreach (Match match in Regex.Matches(args, _stringSplitPattern))
+            {
+                string text = match.Groups[2].ToString();
+
+                if (text != string.Empty)
+                    splittedArgs.Add(text);
+                else
+                    splittedArgs.Add(match.Groups[1].ToString());
+            }
+
+            return splittedArgs;
         }
     }
 }

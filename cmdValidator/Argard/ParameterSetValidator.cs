@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using cmdValidator.Exception;
+using Argard.Exception;
 
-namespace cmdValidator
+namespace Argard
 {
     class ParameterSetValidator
     {
@@ -17,10 +17,10 @@ namespace cmdValidator
             string nonUniqueIdentifier = AreIdentifiersUnique(argumentSchemes);
 
             if (hasRequiredArgumentScheme == false)
-                throw new InvalidArgumentSetException("At least one argument scheme is required.");
+                throw new InvalidParameterSetException("At least one argument scheme is required.");
 
             if (isCmdRequired == false)
-                throw new InvalidArgumentSetException("The command argument scheme must not be optional.");
+                throw new InvalidParameterSetException("The command argument scheme must not be optional.");
 
             if (collidingNonFlag != null)
                 throw new ConflictingFlagNamesException("The flag attributes are colliding with following non flag identifier:" + collidingNonFlag);

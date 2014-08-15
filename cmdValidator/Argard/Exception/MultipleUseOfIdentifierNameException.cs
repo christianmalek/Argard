@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace cmdValidator.Exception
+namespace Argard.Exception
 {
-    public class MultipleUseOfIdentifierNameException : InvalidArgumentSetException
+    public class MultipleUseOfIdentifierNameException : InvalidParameterSetException
     {
         private const string MESSAGE = "Illegal use of same identifier name in multiple argument schemes.";
 

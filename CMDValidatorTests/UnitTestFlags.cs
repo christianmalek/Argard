@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using cmdValidator;
-using cmdValidator.Exception;
+using Argard;
+using Argard.Exception;
 
 namespace cmdValidatorTests
 {
@@ -46,7 +46,7 @@ namespace cmdValidatorTests
 
             try
             {
-                validator.AddArgumentSet("list , l , i , s, t", expectedFunc);
+                validator.AddParameterSet("list , l , i , s, t", expectedFunc);
             }
             catch (ConflictingFlagNamesException)
             {
@@ -67,7 +67,7 @@ namespace cmdValidatorTests
 
             try
             {
-                validator.AddArgumentSet("l[i]st , l, s, t", expectedFunc);
+                validator.AddParameterSet("l[i]st , l, s, t", expectedFunc);
             }
             catch (ConflictingFlagNamesException)
             {
@@ -88,7 +88,7 @@ namespace cmdValidatorTests
 
             try
             {
-                validator.AddArgumentSet("l[i]st|showall , s, h, o, w, a, l", expectedFunc);
+                validator.AddParameterSet("l[i]st|showall , s, h, o, w, a, l", expectedFunc);
             }
             catch (ConflictingFlagNamesException)
             {
@@ -109,7 +109,7 @@ namespace cmdValidatorTests
 
             try
             {
-                validator.AddArgumentSet("list, x|s, k|l, m|t, o|t", expectedFunc);
+                validator.AddParameterSet("list, x|s, k|l, m|t, o|t", expectedFunc);
             }
             catch (MultipleUseOfIdentifierNameException)
             {
@@ -125,7 +125,7 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("l[i]st , l, t", expectedFunc);
+            validator.AddParameterSet("l[i]st , l, t", expectedFunc);
             validator.CheckArgs("lst -lt");
 
             Assert.AreEqual(true, expectedEventGotRaised);
@@ -137,7 +137,7 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("l[i]st , a, b, c, d, e, test1, test2, abk", expectedFunc);
+            validator.AddParameterSet("l[i]st , a, b, c, d, e, test1, test2, abk", expectedFunc);
             validator.CheckArgs("lst -abed -test1 -test2 -abk -c");
 
             Assert.AreEqual(true, expectedEventGotRaised);

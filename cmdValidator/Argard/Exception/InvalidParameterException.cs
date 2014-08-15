@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace cmdValidator.Exception
+namespace Argard.Exception
 {
-    public class InvalidArgumentSchemeException : System.Exception
+    public class InvalidParameterException : System.Exception
     {
         private const string MESSAGE_INVALID_ARGUMENT_SCHEME = "The argument scheme is invalid.";
 
-        public InvalidArgumentSchemeException(string message)
+        public InvalidParameterException(string message)
             : base(message)
         { }
 
-        public InvalidArgumentSchemeException()
+        public InvalidParameterException()
             : base(MESSAGE_INVALID_ARGUMENT_SCHEME)
         { }
     }

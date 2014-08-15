@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using cmdValidator.Exception;
-using cmdValidator;
+using Argard.Exception;
+using Argard;
 
 namespace cmdValidatorTests
 {
@@ -41,8 +41,8 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("inst[all]", expectedFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("inst[all]", expectedFunc);
 
             validator.CheckArgs("inst");
 
@@ -55,8 +55,8 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("inst[all]", expectedFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("inst[all]", expectedFunc);
 
             validator.CheckArgs("install");
 
@@ -69,8 +69,8 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", expectedFunc);
-            validator.AddArgumentSet("install", dummyFunc);
+            validator.AddParameterSet("list", expectedFunc);
+            validator.AddParameterSet("install", dummyFunc);
 
             validator.CheckArgs("all");
 
@@ -85,13 +85,13 @@ namespace cmdValidatorTests
             bool exceptionThrown = false;
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", expectedFunc);
+            validator.AddParameterSet("list", expectedFunc);
 
             try
             {
-                validator.AddArgumentSet("inst [all]", dummyFunc);
+                validator.AddParameterSet("inst [all]", dummyFunc);
             }
-            catch (InvalidArgumentSchemeException)
+            catch (InvalidParameterException)
             {
                 exceptionThrown = true;
             }

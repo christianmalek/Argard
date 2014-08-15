@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using cmdValidator;
-using cmdValidator.Exception;
+using Argard;
+using Argard.Exception;
 
 namespace cmdValidatorTests
 {
@@ -41,8 +41,8 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", expectedFunc);
-            validator.AddArgumentSet("install", dummyFunc);
+            validator.AddParameterSet("list", expectedFunc);
+            validator.AddParameterSet("install", dummyFunc);
 
             validator.CheckArgs("list");
 
@@ -55,8 +55,8 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install", expectedFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install", expectedFunc);
 
             validator.CheckArgs("install");
 
@@ -69,8 +69,8 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", expectedFunc);
-            validator.AddArgumentSet("install", dummyFunc);
+            validator.AddParameterSet("list", expectedFunc);
+            validator.AddParameterSet("install", dummyFunc);
 
             validator.CheckArgs("");
 
@@ -83,8 +83,8 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("    list     ", expectedFunc);
-            validator.AddArgumentSet("  install  ", dummyFunc);
+            validator.AddParameterSet("    list     ", expectedFunc);
+            validator.AddParameterSet("  install  ", dummyFunc);
 
             validator.CheckArgs("list");
 
@@ -99,14 +99,14 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", expectedFunc);
-            validator.AddArgumentSet("install", dummyFunc);
+            validator.AddParameterSet("list", expectedFunc);
+            validator.AddParameterSet("install", dummyFunc);
 
             try
             {
-                validator.AddArgumentSet("list", expectedFunc);
+                validator.AddParameterSet("list", expectedFunc);
             }
-            catch(InvalidArgumentSetException)
+            catch(InvalidParameterSetException)
             {
                 exceptionThrown = true;
             }
@@ -122,14 +122,14 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false, true);
-            validator.AddArgumentSet("list", expectedFunc);
-            validator.AddArgumentSet("install", dummyFunc);
+            validator.AddParameterSet("list", expectedFunc);
+            validator.AddParameterSet("install", dummyFunc);
 
             try
             {
-                validator.AddArgumentSet("lIsT", expectedFunc);
+                validator.AddParameterSet("lIsT", expectedFunc);
             }
-            catch (InvalidArgumentSetException)
+            catch (InvalidParameterSetException)
             {
                 exceptionThrown = true;
             }
@@ -145,14 +145,14 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false, false);
-            validator.AddArgumentSet("list", expectedFunc);
-            validator.AddArgumentSet("install", dummyFunc);
+            validator.AddParameterSet("list", expectedFunc);
+            validator.AddParameterSet("install", dummyFunc);
 
             try
             {
-                validator.AddArgumentSet("lIsT", expectedFunc);
+                validator.AddParameterSet("lIsT", expectedFunc);
             }
-            catch (InvalidArgumentSetException)
+            catch (InvalidParameterSetException)
             {
                 exceptionThrown = true;
             }
@@ -166,8 +166,8 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false, true);
-            validator.AddArgumentSet("list", expectedFunc);
-            validator.AddArgumentSet("install", dummyFunc);
+            validator.AddParameterSet("list", expectedFunc);
+            validator.AddParameterSet("install", dummyFunc);
 
             validator.CheckArgs("LIST");
 
@@ -180,8 +180,8 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false, false);
-            validator.AddArgumentSet("list", expectedFunc);
-            validator.AddArgumentSet("install", dummyFunc);
+            validator.AddParameterSet("list", expectedFunc);
+            validator.AddParameterSet("install", dummyFunc);
 
             validator.CheckArgs("LIST");
 
@@ -199,14 +199,14 @@ namespace cmdValidatorTests
 
             try
             {
-                validator.AddArgumentSet("(list)", expectedFunc);
+                validator.AddParameterSet("(list)", expectedFunc);
             }
-            catch (InvalidArgumentSetException)
+            catch (InvalidParameterSetException)
             {
                 exceptionThrown = true;
             }
 
-            validator.AddArgumentSet("install", dummyFunc);
+            validator.AddParameterSet("install", dummyFunc);
 
             validator.CheckArgs("list");
 
@@ -224,14 +224,14 @@ namespace cmdValidatorTests
 
             try
             {
-                validator.AddArgumentSet("(list), xyz", expectedFunc);
+                validator.AddParameterSet("(list), xyz", expectedFunc);
             }
-            catch(InvalidArgumentSetException)
+            catch(InvalidParameterSetException)
             {
                 exceptionThrown = true;
             }
 
-            validator.AddArgumentSet("install", dummyFunc);
+            validator.AddParameterSet("install", dummyFunc);
 
             validator.CheckArgs("list");
 
@@ -249,9 +249,9 @@ namespace cmdValidatorTests
 
             try
             {
-                validator.AddArgumentSet("list, ()", expectedFunc);
+                validator.AddParameterSet("list, ()", expectedFunc);
             }
-            catch (InvalidArgumentSchemeException)
+            catch (InvalidParameterException)
             {
                 exceptionThrown = true;
             }
@@ -270,7 +270,7 @@ namespace cmdValidatorTests
 
             try
             {
-                validator.AddArgumentSet("list, install, show, install: (^s) ", expectedFunc);
+                validator.AddParameterSet("list, install, show, install: (^s) ", expectedFunc);
             }
             catch (MultipleUseOfIdentifierNameException)
             {

@@ -2,21 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using cmdValidator.Exception;
+using Argard.Exception;
 
-namespace cmdValidator
+namespace Argard
 {
 	public class ParameterSetParser
 	{
-        //validation patterns
-		private const string _stringSplitPattern = "(\"([^\"]+)\"|[^(\\s|,)]+),?";
-
-        private ParameterParser _argumentSchemeParser;
+        private ParameterParser _parameterParser;
         private IArgumentParser _argumentParser;
 
 		private bool _ignoreUnknownParameters;
         private bool _ignoreCase;
-		private List<ParameterSet> _argumentSets;
+		private List<ParameterSet> _parameterSets;
 
         public IArgumentParser ArgumentParser
         {
@@ -43,40 +40,39 @@ namespace cmdValidator
 
         public ParameterSetParser(bool ignoreUnknownParameters, bool ignoreCase, IArgumentParser argumentParser)
         {
-            this._argumentSchemeParser = new ParameterParser();
+            this._parameterParser = new ParameterParser();
             this._argumentParser = argumentParser;
 
             this._ignoreUnknownParameters = ignoreUnknownParameters;
             this._ignoreCase = ignoreCase;
-            this._argumentSets = new List<ParameterSet>();
+            this._parameterSets = new List<ParameterSet>();
         }
 
-        public void AddArgumentSet(string argumentSchemesString, OnTrigger getArgs)
+        public void AddParameterSet(string parameterSchemes, OnTrigger onTrigger)
         {
             if (this._ignoreCase)
-                argumentSchemesString = argumentSchemesString.ToLower();
+                parameterSchemes = parameterSchemes.ToLower();
 
-            IEnumerable<Parameter> argumentSchemes = _argumentSchemeParser.ParseArgumentSchemes(argumentSchemesString);
-
-            ParameterSet newArgumentSet = new ParameterSet(argumentSchemes, getArgs);
+            List<Parameter> parameters = _parameterParser.ParseParameterSchemes(parameterSchemes);
+            ParameterSet newArgumentSet = new ParameterSet(parameters, onTrigger);
 
             //checks if a cmd already exists,
             //if not the argSet is legal and will be added to the argumentSets,
             //otherwise a exception will be thrown
-            foreach (var argumentSet in this._argumentSets)
+            foreach (var parameterSet in this._parameterSets)
                 foreach (var newIdentifier in newArgumentSet.GetCmd().Identifiers)
-                    if (argumentSet.GetCmd().Identifiers.Contains(newIdentifier))
+                    if (parameterSet.GetCmd().Identifiers.Contains(newIdentifier))
                     {
                         string message = "Cmd already exists. It's only allowed to use every cmd one time.";
-                        throw new InvalidArgumentSetException(string.Format("{0}\nduplicative cmd: {1}", message, newIdentifier)); //TODO: Exception type is wrong
+                        throw new InvalidParameterSetException(string.Format("{0}\nduplicative cmd: {1}", message, newIdentifier)); //TODO: Exception type is wrong
                     }
 
-            this._argumentSets.Add(new ParameterSet(argumentSchemes, getArgs));
+            this._parameterSets.Add(new ParameterSet(parameters, onTrigger));
         }
 
         public bool CheckArgs(string args)
         {
-            return this.CheckArgs(new List<string>(SplitArgs(args)));
+            return this.CheckArgs(_argumentParser.SplitArgs(args));
         }
 
 		public bool CheckArgs(List<string> args)
@@ -88,14 +84,14 @@ namespace cmdValidator
             List<Argument> parsedArgs = _argumentParser.GetArgs(args);
 
 			bool result = false;
-			for (int i = 0; i < this._argumentSets.Count; i++)
+			for (int i = 0; i < this._parameterSets.Count; i++)
 			{
 				List<Argument> unknownArguments = new List<Argument>();
-				ParameterSet parsedArgumentSet = this.GetParsedArgumentSet(this._argumentSets[i], parsedArgs, this._ignoreUnknownParameters, ref unknownArguments);
+				ParameterSet parsedArgumentSet = this.GetParsedArgumentSet(this._parameterSets[i], parsedArgs, this._ignoreUnknownParameters, ref unknownArguments);
 
 				if (parsedArgumentSet != null)
 				{
-					this._argumentSets[i] = parsedArgumentSet;
+					this._parameterSets[i] = parsedArgumentSet;
 
 					if (this._ignoreUnknownParameters || (!this._ignoreUnknownParameters && unknownArguments.Count == 0))
 						parsedArgumentSet.TriggerEvent(unknownArguments.ToArray());
@@ -113,7 +109,7 @@ namespace cmdValidator
 
 			for (int i = 0; i < argSet.ArgSchemes.Length; i++)
 			{
-				Parameter parsedArgumentScheme = _argumentSchemeParser.GetParsedArgumentScheme(argSet.ArgSchemes[i], ref args);
+				Parameter parsedArgumentScheme = _parameterParser.GetParsedParameter(argSet.ArgSchemes[i], ref args);
 				if (parsedArgumentScheme == null)
 					return null;
 
@@ -168,21 +164,5 @@ namespace cmdValidator
 
             return identifiers;
         }
-
-		private IEnumerable<string> SplitArgs(string args)
-		{
-			Regex regex = new Regex(ParameterSetParser._stringSplitPattern);
-			MatchCollection matchCollection = regex.Matches(args);
-
-			foreach (Match match in matchCollection)
-			{
-				string text = match.Groups[2].ToString();
-
-				if (text != string.Empty)
-					yield return text;
-				else
-					yield return match.Groups[1].ToString();
-			}
-		}
 	}
 }

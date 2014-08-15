@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using cmdValidator;
+using Argard;
 
 namespace cmdValidatorTests
 {
@@ -40,9 +40,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:^s", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:^s", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install");
 
@@ -55,9 +55,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:^s", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:^s", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install angularjs");
 
@@ -70,9 +70,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:^s", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:^s", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install --angularjs");
 
@@ -85,9 +85,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:^s", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:^s", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install angularjs jquery");
 
@@ -100,9 +100,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:(^s)", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:(^s)", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install angularjs");
 
@@ -115,9 +115,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:(^s)", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:(^s)", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install");
 
@@ -130,9 +130,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:(^s)", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:(^s)", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install jquery lo-dash");
 
@@ -145,9 +145,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:^single", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:^single", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install");
 
@@ -160,9 +160,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:^single", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:^single", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install angularjs");
 
@@ -175,9 +175,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:^single", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:^single", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install --angularjs");
 
@@ -190,9 +190,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:^single", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:^single", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install angularjs jquery");
 
@@ -205,9 +205,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:(^single)", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:(^single)", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install angularjs");
 
@@ -220,9 +220,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:(^single)", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:(^single)", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install");
 
@@ -235,9 +235,9 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list", dummyFunc);
-            validator.AddArgumentSet("install:(^single)", expectedFunc);
-            validator.AddArgumentSet("show", dummyFunc);
+            validator.AddParameterSet("list", dummyFunc);
+            validator.AddParameterSet("install:(^single)", expectedFunc);
+            validator.AddParameterSet("show", dummyFunc);
 
             validator.CheckArgs("install jquery lo-dash");
 

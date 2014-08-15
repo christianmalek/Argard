@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-namespace cmdValidator
+namespace Argard
 {
     public class Parameter
     {

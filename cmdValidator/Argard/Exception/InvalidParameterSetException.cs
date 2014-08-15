@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace cmdValidator.Exception
+namespace Argard.Exception
 {
-    public class InvalidArgumentSetException : System.Exception
+    public class InvalidParameterSetException : System.Exception
     {
         private const string MESSAGE_INVALID_ARGUMENT_SET = "The argument set is invalid.";
 
-        public InvalidArgumentSetException(string message)
+        public InvalidParameterSetException(string message)
             : base(message)
         { }
 
-        public InvalidArgumentSetException()
+        public InvalidParameterSetException()
             : base(MESSAGE_INVALID_ARGUMENT_SET)
         { }
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using cmdValidator;
+using Argard;
 
 namespace cmdValidatorTests
 {
@@ -43,7 +43,7 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list  : x", expectedFunc);
+            validator.AddParameterSet("list  : x", expectedFunc);
 
             validator.CheckArgs("list x");
 
@@ -58,7 +58,7 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("list  : x |   y |   z", expectedFunc);
+            validator.AddParameterSet("list  : x |   y |   z", expectedFunc);
 
             validator.CheckArgs("list y");
 
@@ -73,7 +73,7 @@ namespace cmdValidatorTests
             InitializeTest();
 
             ParameterSetParser validator = new ParameterSetParser(false);
-            validator.AddArgumentSet("l[i]st  :( x |   y | z  | n     )", expectedFunc);
+            validator.AddParameterSet("l[i]st  :( x |   y | z  | n     )", expectedFunc);
 
             validator.CheckArgs("lst z");
 

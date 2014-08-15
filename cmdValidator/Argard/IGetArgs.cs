@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace cmdValidator
+namespace Argard
 {
-    public interface IArgumentParser
+    public interface IGetArgs
     {
         List<Argument> GetArgs(List<string> args);
     }

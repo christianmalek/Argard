@@ -37,23 +37,28 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cmdValidator\Argument.cs" />
-    <Compile Include="cmdValidator\ArgumentParser.cs" />
-    <Compile Include="cmdValidator\IArgumentParser.cs" />
-    <Compile Include="cmdValidator\ParameterParser.cs" />
-    <Compile Include="cmdValidator\ParameterSetArgs.cs" />
-    <Compile Include="cmdValidator\Parameter.cs" />
-    <Compile Include="cmdValidator\ParameterSet.cs" />
-    <Compile Include="cmdValidator\ParameterSetValidator.cs" />
-    <Compile Include="cmdValidator\ParameterValues.cs" />
-    <Compile Include="cmdValidator\Exception\ConflictingFlagNamesException.cs" />
-    <Compile Include="cmdValidator\Exception\MultipleUseOfIdentifierNameException.cs" />
-    <Compile Include="cmdValidator\Exception\InvalidArgumentSchemeException.cs" />
-    <Compile Include="cmdValidator\Exception\InvalidArgumentSetException.cs" />
-    <Compile Include="cmdValidator\ParameterValidator.cs" />
-    <Compile Include="cmdValidator\ParameterSetParser.cs" />
-    <Compile Include="cmdValidator\OnTrigger.cs" />
-    <Compile Include="cmdValidator\ValueType.cs" />
+    <Compile Include="Argard\Argument.cs" />
+    <Compile Include="Argard\ArgumentParser.cs" />
+    <Compile Include="Argard\IArgumentParser.cs" />
+    <Compile Include="Argard\IdentifierParser.cs" />
+    <Compile Include="Argard\ISplitArgs.cs" />
+    <Compile Include="Argard\ParameterParser.cs" />
+    <Compile Include="Argard\ParameterSetArgs.cs" />
+    <Compile Include="Argard\Parameter.cs" />
+    <Compile Include="Argard\ParameterSet.cs" />
+    <Compile Include="Argard\ParameterSetValidator.cs" />
+    <Compile Include="Argard\ParameterValues.cs" />
+    <Compile Include="Argard\Exception\ConflictingFlagNamesException.cs" />
+    <Compile Include="Argard\Exception\MultipleUseOfIdentifierNameException.cs" />
+    <Compile Include="Argard\Exception\InvalidParameterException.cs" />
+    <Compile Include="Argard\Exception\InvalidParameterSetException.cs" />
+    <Compile Include="Argard\ParameterValidator.cs" />
+    <Compile Include="Argard\ParameterSetParser.cs" />
+    <Compile Include="Argard\OnTrigger.cs" />
+    <Compile Include="Argard\StringHelper.cs" />
+    <Compile Include="Argard\ValueParser.cs" />
+    <Compile Include="Argard\ValueType.cs" />
+    <Compile Include="Argard\IGetArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace cmdValidator
+namespace Argard
 {
     public class ParameterSet
     {
