@@ -8,7 +8,10 @@ namespace Argard
 {
     static class Pattern
     {
-        public const string IdentifierPattern = @"(?:(?:(\w+)(\[\w+\])?(\w*))|(?:(\[\w+\])(\w+)))";
-        public const string ParameterPattern = @"\A" + IdentifierPattern + @"(?:\s*\|\s*" + IdentifierPattern + @")*(?:(?::\([^|]+(?:\|[^|]+)*\))|(?:\s*:[^|]+(?:\|[^|]+)*))?\Z";
+        public const string IdentifierPattern = @"\A(?:(?:(\w+)(\[\w+\])?(\w*))|(?:(\[\w+\])(\w+)))\Z";
+        public const string NonBackReferencingIdentifierPattern = @"(?:(?:(?:\w+)(?:\[\w+\])?(?:\w*))|(?:(?:\[\w+\])(?:\w+)))";
+
+        //important: doesnt match surrounding brackets!
+        public const string ParameterPattern = @"\A" + NonBackReferencingIdentifierPattern + @"(?:\s*\|\s*" + NonBackReferencingIdentifierPattern + @")*(?:(?::\([^|]+(?:\|[^|]+)*\))|(?:\s*:[^|]+(?:\|[^|]+)*))?\Z";
     }
 }

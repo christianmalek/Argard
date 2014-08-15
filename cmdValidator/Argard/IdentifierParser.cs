@@ -20,7 +20,7 @@ namespace Argard
             for (int i = 0; i < array2.Length; i++)
             {
                 string singleIdentifierScheme = array2[i];
-                list.AddRange(this.SplitIdentifiers(singleIdentifierScheme));
+                list.AddRange(this.SplitIdentifiers(singleIdentifierScheme.Trim()));
             }
             return list;
         }

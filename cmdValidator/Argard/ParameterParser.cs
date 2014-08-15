@@ -23,9 +23,8 @@ namespace Argard
 
         public List<Parameter> ParseParameterSchemes(string parameterSchemes)
         {
-            parameterSchemes = parameterSchemes.Trim();
             List<Parameter> parameters = new List<Parameter>();
-            string[] array = parameterSchemes.Split(new char[] { ',' });
+            string[] array = parameterSchemes.Trim().Split(new char[] { ',' });
 
             //if there are no argument schemes stop parsing and throw exception
             if (array.Length < 1)
@@ -43,7 +42,7 @@ namespace Argard
 
         private Parameter GetParameter(string parameterScheme, bool isCmd)
         {
-            Parameter parameter = this.ParseParameterScheme(parameterScheme, isCmd);
+            Parameter parameter = this.ParseParameterScheme(parameterScheme.Trim(), isCmd);
 
             if (parameter == null)
                 throw new InvalidParameterException(string.Format("Following argument scheme is corrupted:\n\"{0}\"", parameterScheme));
@@ -58,10 +57,7 @@ namespace Argard
             if (isOptional)
                 parameterScheme = StringHelper.RemoveLastAndFirstChar(parameterScheme);
 
-            //remove spaces at the beginning and end for the sake of validation
-            parameterScheme = parameterScheme.Trim();
-
-            if (this._validator.Validate(parameterScheme))
+            if (this._validator.Validate(parameterScheme.Trim()))
             {
                 int num = parameterScheme.IndexOf(':');
 
@@ -97,7 +93,12 @@ namespace Argard
             int argIndex = GetArgIndex(parameter, args);
 
             if (argIndex < 0)
-                return null;
+            {
+                if (parameter.IsOptional)
+                    return parameter;
+                else
+                    return null;
+            }
 
             //check if identifier is existing and remove it from args
             //otherwise return null and stop it that way from parsing
@@ -111,8 +112,6 @@ namespace Argard
                 else
                     return null;
             }
-            else if (parameter.IsOptional)
-                return parameter;
             else
                 return null;
 

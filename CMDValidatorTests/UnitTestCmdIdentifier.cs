@@ -81,7 +81,6 @@ namespace cmdValidatorTests
         public void TestMethodCmdIdentifiers4()
         {
             InitializeTest();
-
             bool exceptionThrown = false;
 
             ParameterSetParser validator = new ParameterSetParser(false);
@@ -97,6 +96,74 @@ namespace cmdValidatorTests
             }
 
             Assert.AreEqual(true, exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TestMethodCmdIdentifiers5()
+        {
+            InitializeTest();
+            bool exceptionThrown = false;
+
+            ParameterSetParser validator = new ParameterSetParser(false);
+
+            try
+            {
+                validator.AddParameterSet("(list)", dummyFunc);
+            }
+            catch (InvalidParameterSetException)
+            {
+                exceptionThrown = true;
+            }
+
+            validator.CheckArgs("list");
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TestMethodCmdIdentifiers6()
+        {
+            InitializeTest();
+            bool exceptionThrown = false;
+
+            ParameterSetParser validator = new ParameterSetParser(false);
+
+            try
+            {
+                validator.AddParameterSet("(inst[all] |  add )", expectedFunc);
+            }
+            catch (InvalidParameterSetException)
+            {
+                exceptionThrown = true;
+            }
+
+            validator.CheckArgs("inst");
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TestMethodCmdIdentifiers7()
+        {
+            InitializeTest();
+
+            ParameterSetParser validator = new ParameterSetParser(false);
+            validator.AddParameterSet("cmd, (inst[all] |  add )", expectedFunc);
+            validator.CheckArgs("cmd");
+
+            Assert.AreEqual(true, GetRaisingResults());
+        }
+
+        [TestMethod]
+        public void TestMethodCmdIdentifiers8()
+        {
+            InitializeTest();
+
+            ParameterSetParser validator = new ParameterSetParser(false);
+            validator.AddParameterSet("cmd, (inst[all] |  add )", expectedFunc);
+            validator.CheckArgs("cmd");
+
+            Assert.AreEqual(true, GetRaisingResults());
         }
     }
 }
