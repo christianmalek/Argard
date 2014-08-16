@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Argard;
 
-namespace cmdValidatorTests
+namespace ArgardTests
 {
     [TestClass]
     public class UnitTestMultipleIdentifiers

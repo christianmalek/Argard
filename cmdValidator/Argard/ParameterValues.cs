@@ -29,8 +29,8 @@ namespace Argard
         {
             get
             {
-                if (this._allowedValues.Count > 0)
-                    return this._allowedValues[0];
+                if (this._parsedValues.Count > 0)
+                    return this._parsedValues[0];
                 else
                     return null;
             }

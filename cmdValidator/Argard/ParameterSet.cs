@@ -5,35 +5,54 @@ namespace Argard
 {
     public class ParameterSet
     {
-        private Parameter[] _argSchemes;
-        public event OnTrigger GetArgs;
+        private Parameter[] _parameters;
+        public event OnTrigger OnTrigger;
 
-        public Parameter[] ArgSchemes
+        public Parameter[] Parameters
         {
-            get { return this._argSchemes; }
-            set { this._argSchemes = value; }
+            get { return this._parameters; }
+            set { this._parameters = value; }
         }
 
-        public ParameterSet(IEnumerable<Parameter> argSchemes, OnTrigger getArgs)
+        public ParameterSet(IEnumerable<Parameter> parameter, OnTrigger onTrigger)
         {
-            this._argSchemes = argSchemes.Cast<Parameter>().ToArray<Parameter>();
+            this._parameters = parameter.ToArray<Parameter>();
 
-            new ParameterSetValidator().Validate(this._argSchemes);
+            new ParameterSetValidator().Validate(this._parameters);
 
-            this.GetArgs += getArgs;
+            this.OnTrigger += onTrigger;
         }
 
         public void TriggerEvent(Argument[] unknownArguments)
         {
-            if (this.GetArgs != null)
-                this.GetArgs(new ParameterSetArgs(this, unknownArguments));
+            if (this.OnTrigger != null)
+                this.OnTrigger(new ParameterSetArgs(this, unknownArguments));
         }
 
         public Parameter GetCmd()
         {
-            foreach (var argumentScheme in this._argSchemes)
+            foreach (var argumentScheme in this._parameters)
                 if (argumentScheme.IsCmd)
                     return argumentScheme;
+            return null;
+        }
+
+        public Parameter ContainsParameter(string identifier)
+        {
+            foreach (var parameter in _parameters)
+                if (parameter.Identifiers.Contains(identifier))
+                    return parameter;
+
+            return null;
+        }
+
+        public Parameter ContainsParameter(List<string> identifiers)
+        {
+            foreach (var parameter in _parameters)
+                foreach (var identifier in identifiers)
+                    if (parameter.Identifiers.Contains(identifier))
+                        return parameter;
+
             return null;
         }
     }

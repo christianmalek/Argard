@@ -21,13 +21,13 @@ namespace Argard
             this.UnknownArguments = unknownArguments;
 
             //add all possible identifiers as key for the cmd
-            foreach (var identifier in argumentSet.ArgSchemes[0].Identifiers)
-                CMD.Add(identifier, argumentSet.ArgSchemes[0]);
+            foreach (var identifier in argumentSet.Parameters[0].Identifiers)
+                CMD.Add(identifier, argumentSet.Parameters[0]);
 
             //add all possible identifiers as key for the options
-            for (int i = 1; i < argumentSet.ArgSchemes.Length; i++)
-                foreach (var identifier in argumentSet.ArgSchemes[i].Identifiers)
-                    Options.Add(identifier, argumentSet.ArgSchemes[i]);
+            for (int i = 1; i < argumentSet.Parameters.Length; i++)
+                foreach (var identifier in argumentSet.Parameters[i].Identifiers)
+                    Options.Add(identifier, argumentSet.Parameters[i]);
         }
     }
 }

@@ -54,20 +54,66 @@ namespace Argard
                 parameterSchemes = parameterSchemes.ToLower();
 
             List<Parameter> parameters = _parameterParser.ParseParameterSchemes(parameterSchemes);
-            ParameterSet newArgumentSet = new ParameterSet(parameters, onTrigger);
+            ParameterSet newParameterSet = new ParameterSet(parameters, onTrigger);
 
-            //checks if a cmd already exists,
+            //checks if a parameter set is clearly recognizable from others,
             //if not the argSet is legal and will be added to the argumentSets,
             //otherwise a exception will be thrown
             foreach (var parameterSet in this._parameterSets)
-                foreach (var newIdentifier in newArgumentSet.GetCmd().Identifiers)
-                    if (parameterSet.GetCmd().Identifiers.Contains(newIdentifier))
-                    {
-                        string message = "Cmd already exists. It's only allowed to use every cmd one time.";
-                        throw new InvalidParameterSetException(string.Format("{0}\nduplicative cmd: {1}", message, newIdentifier)); //TODO: Exception type is wrong
-                    }
+                if (AreArgumentSetsClearlyRecognizable(parameterSet, newParameterSet) == false)
+                    throw new InvalidParameterSetException(string.Format("An already added parameter set couldn't be distinguished from another parameter set. The amount or name of non-optional parameters must be different."));
+
+                //foreach (var newIdentifier in newParameterSet.GetCmd().Identifiers)
+                //    if (parameterSet.GetCmd().Identifiers.Contains(newIdentifier))
+                //    {
+
+                //        //
+
+                //        string message = "Cmd already exists. It's only allowed to use every cmd one time.";
+                //        throw new InvalidParameterSetException(string.Format("{0}\nduplicative cmd: {1}", message, newIdentifier)); //TODO: Exception type is wrong
+                //    }
 
             this._parameterSets.Add(new ParameterSet(parameters, onTrigger));
+        }
+
+        private bool AreArgumentSetsClearlyRecognizable(ParameterSet set1, ParameterSet set2)
+        {
+            bool cmdIdentifiersAreOverlapping = AreIdentifiersOverlapping(set1.GetCmd(), set2.GetCmd());
+
+            if (cmdIdentifiersAreOverlapping == false)
+                return true;
+            else
+            {
+                if(set1.Parameters.Length < set2.Parameters.Length)
+                {
+                    ParameterSet swap = set1;
+                    set1 = set2;
+                    set2 = swap;
+                }
+
+                foreach (var param in set1.Parameters)
+                {
+                    //optional params are not relevant
+                    if (param.IsOptional)
+                        continue;
+
+                    Parameter matchingParam = set2.ContainsParameter(param.Identifiers);
+
+                    if(matchingParam == null)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool AreIdentifiersOverlapping(Parameter param1, Parameter param2)
+        {
+            foreach (var identifier in param1.Identifiers)
+                if (param2.Identifiers.Contains(identifier))
+                    return true;
+
+            return false;
         }
 
         public bool CheckArgs(string args)
@@ -107,16 +153,16 @@ namespace Argard
 
             args = GetFlagSplittedArgs(argSet, args);
 
-			for (int i = 0; i < argSet.ArgSchemes.Length; i++)
+			for (int i = 0; i < argSet.Parameters.Length; i++)
 			{
-				Parameter parsedArgumentScheme = _parameterParser.GetParsedParameter(argSet.ArgSchemes[i], ref args);
+				Parameter parsedArgumentScheme = _parameterParser.GetParsedParameter(argSet.Parameters[i], ref args);
 				if (parsedArgumentScheme == null)
 					return null;
 
 				list.Add(parsedArgumentScheme);
 			}
 			unknownArguments = new List<Argument>(args);
-			argSet.ArgSchemes = list.ToArray();
+			argSet.Parameters = list.ToArray();
 			return argSet;
 		}
 
@@ -158,7 +204,7 @@ namespace Argard
         {
             List<string> identifiers = new List<string>();
 
-            foreach (var argScheme in argSet.ArgSchemes)
+            foreach (var argScheme in argSet.Parameters)
                 foreach (var identifier in argScheme.Identifiers)
                     identifiers.Add(identifier);
 

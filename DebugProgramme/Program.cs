@@ -18,9 +18,10 @@ namespace DebugProgramme
             //validator.AddArgumentSet("l[i]st:\"s,type:m|g", dummyFunc);
             //validator.AddArgumentSet("l[i]st", dummyFunc);
             //validator.AddArgumentSet("sync:\"l", dummyFunc);
-            parser.AddParameterSet("(install | add)", dummyFunc);
+            parser.AddParameterSet("install | add,x, y", dummyFunc);
+            parser.AddParameterSet("install,y:(pups)", dummyFunc);
 
-            parser.CheckArgs("install");
+            parser.CheckArgs("install -y");
         }
 
         static void dummyFunc(ParameterSetArgs args)

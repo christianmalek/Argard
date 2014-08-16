@@ -6,7 +6,7 @@
     <ProjectGuid>{C4A3C2EE-5ECC-437D-8417-7F57D02995A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>cmdValidatorTests</RootNamespace>
+    <RootNamespace>ArgardTests</RootNamespace>
     <AssemblyName>CMDValidatorTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="UnitTestRepetitiveCmdNames.cs" />
     <Compile Include="UnitTestFlags.cs" />
     <Compile Include="UnitTestAdvanced.cs" />
     <Compile Include="UnitTestMultipleIdentifiers.cs" />

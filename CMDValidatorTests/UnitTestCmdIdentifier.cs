@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Argard.Exception;
 using Argard;
 
-namespace cmdValidatorTests
+namespace ArgardTests
 {
     [TestClass]
     public class UnitTestCmdIdentifier
