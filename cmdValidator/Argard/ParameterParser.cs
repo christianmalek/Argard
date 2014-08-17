@@ -115,7 +115,7 @@ namespace Argard
             else
                 return null;
 
-            switch (parameter.ArgumentValues.ValueType)
+            switch (parameter.Values.ValueType)
             {
                 case ValueType.None:
                     return parameter;
@@ -157,12 +157,12 @@ namespace Argard
         {
             if (args.Count > 0 && args[0].IsOption == false)
             {
-                bool specialValueRequired = argScheme.ArgumentValues.AllowedValues.Count > 0;
-                bool requiredValueAvailable = argScheme.ArgumentValues.AllowedValues.Contains(args[0].Value);
+                bool specialValueRequired = argScheme.Values.AllowedValues.Count > 0;
+                bool requiredValueAvailable = argScheme.Values.AllowedValues.Contains(args[0].Value);
 
                 if (specialValueRequired && requiredValueAvailable || !specialValueRequired)
                 {
-                    argScheme.ArgumentValues.ParsedValues.Add(args[0].Value);
+                    argScheme.Values.ParsedValues.Add(args[0].Value);
                     args.RemoveAt(0);
                     return argScheme;
                 }
@@ -170,7 +170,7 @@ namespace Argard
                     return null;
             }
 
-            if (argScheme.ArgumentValues.AreValuesOptional)
+            if (argScheme.Values.AreValuesOptional)
                 return argScheme;
             else
                 return null;
@@ -186,11 +186,11 @@ namespace Argard
             {
                 if (arg.IsOption)
                     break;
-                parameter.ArgumentValues.ParsedValues.Add(arg.Value);
+                parameter.Values.ParsedValues.Add(arg.Value);
                 args.Remove(arg);
             }
 
-            if (parameter.ArgumentValues.ParsedValues.Count > 0 || parameter.ArgumentValues.AreValuesOptional)
+            if (parameter.Values.ParsedValues.Count > 0 || parameter.Values.AreValuesOptional)
                 return parameter;
             else
                 return null;

@@ -50,7 +50,7 @@ namespace ArgardTests
 
             parser.CheckArgs("install -y");
 
-            bool actual = args.Options["y"].ArgumentValues.AllowedValues[0] == "aloha";
+            bool actual = args.Options["y"].Values.AllowedValues[0] == "aloha";
 
             Assert.AreEqual(true, actual);
         }

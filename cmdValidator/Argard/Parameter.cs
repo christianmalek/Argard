@@ -7,15 +7,15 @@ namespace Argard
         private List<string> _identifiers;
         private bool _isOptional;
         private bool _isCmd;
-        ParameterValues _argumentValues;
+        ParameterValues _values;
 
         public List<string> Identifiers
         {
             get { return this._identifiers; }
         }
-        public ParameterValues ArgumentValues
+        public ParameterValues Values
         {
-            get { return this._argumentValues; }
+            get { return this._values; }
         }
         public bool IsOptional
         {
@@ -30,7 +30,7 @@ namespace Argard
         {
             get
             {
-                if (this._isCmd == false && this._argumentValues.ValueType == ValueType.None)
+                if (this._isCmd == false && this._values.ValueType == ValueType.None)
                 {
                     foreach (var identifier in this._identifiers)
                         if (identifier.Length > 1)
@@ -51,7 +51,7 @@ namespace Argard
             this._identifiers = new List<string>(identifiers);
             this._isOptional = isNotRequired;
             this._isCmd = isCmd;
-            this._argumentValues = argumentValues;
+            this._values = argumentValues;
         }
 
         private string GetStringEntries(IEnumerable<string> strings)
