@@ -9,10 +9,11 @@ Important: The wiki is at the moment obsolete! It will be updated soon!
 Example programme
 ---
 
-This programme doesn't demonstrate every feature of Argard. But it will help you to get the idea for what this programme is good for.
+This programme doesn't demonstrate every feature of Argard. But it will help you to get an idea for what this programme is good for.
 
 ```cs
 
+//don't forget to reference the namespace
 using Argard;
 using System;
 
@@ -85,11 +86,13 @@ namespace DebugProgramme
 
         static void list(ParameterSetArgs args)
         {
-            Console.WriteLine("source: {0}", args.Options["src"].Values.FirstValue);
+            Console.WriteLine("source: {0}",
+                args.Options["src"].Values.FirstValue);
 
             //.Values.ParsedValues[0] equals .Values.FirstValue
             //just for clarifying :)
-            Console.WriteLine("destination: {0}", args.Options["dst"].Values.ParsedValues[0]);
+            Console.WriteLine("destination: {0}",
+                args.Options["dst"].Values.ParsedValues[0]);
         }
     }
 }
