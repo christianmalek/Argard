@@ -3,6 +3,17 @@ Argard
 
 An validator/parser for commandline arguments in .NET programmes.
 
+Current features:
+ - multiple parameter sets
+ - optional parameters
+ - multiple identifiers for every parameter
+    - optional words (e.g. inst[all] => inst or install)
+    - alternatives (e.g. install|add => install and add
+ - optional parameters
+ - parameter values: none, single or list
+ - allowed values for parameters (will only match if the parsed values are predefined with the parameter)
+ - flag support (every single letter parameters can be chained, e.g. -xfyz)
+
 Important: The wiki is at the moment obsolete! It will be updated soon!
 ---
 
@@ -43,17 +54,17 @@ namespace DebugProgramme
             parser.AddParameterSet("add:^l", add);
 
             //matches "list -src string -dst string"
-            //instead of src you could use source and for dst you could use destination
+            //instead of "src" you could use "source" and for "dst" you could use "destination"
             //by the way, the order of the options doesn't matter ;)
             parser.AddParameterSet("list,src|source:^s,dst|destination:^s", list);
 
-            //here we will set the to parsing arguments.
+            //here we will set the arguments which we'll parse.
             string args = "add 5, 10, 25";
 
             //call the check args method to start the matching process
             //if it matches with a parameter set, it will trigger the respective event
             //otherwise it will return false and computes the if-statement
-            if (parser.CheckArgs(args) == false)
+            if (parser.Parse(args) == false)
                 Console.WriteLine("Nothing matched. :(");
         }
 
