@@ -45,7 +45,7 @@ namespace ArgardTests
             ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddParameterSet("list  : x", expectedFunc);
 
-            validator.CheckArgs("list x");
+            validator.Parse("list x");
 
             bool actual = args.CMD.Values.FirstValue == "x";
 
@@ -60,7 +60,7 @@ namespace ArgardTests
             ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddParameterSet("list  : x |   y |   z", expectedFunc);
 
-            validator.CheckArgs("list y");
+            validator.Parse("list y");
 
             bool actual = args.CMD.Values.ParsedValues[0] == "y";
 
@@ -75,7 +75,7 @@ namespace ArgardTests
             ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddParameterSet("l[i]st  :( x |   y | z  | n     )", expectedFunc);
 
-            validator.CheckArgs("lst z");
+            validator.Parse("lst z");
 
             bool actual = args.CMD.Values.ParsedValues[0] == "z";
 

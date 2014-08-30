@@ -44,7 +44,7 @@ namespace ArgardTests
             validator.AddParameterSet("list", dummyFunc);
             validator.AddParameterSet("inst[all]", expectedFunc);
 
-            validator.CheckArgs("inst");
+            validator.Parse("inst");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -58,7 +58,7 @@ namespace ArgardTests
             validator.AddParameterSet("list", dummyFunc);
             validator.AddParameterSet("inst[all]", expectedFunc);
 
-            validator.CheckArgs("install");
+            validator.Parse("install");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -72,7 +72,7 @@ namespace ArgardTests
             validator.AddParameterSet("list", expectedFunc);
             validator.AddParameterSet("install", dummyFunc);
 
-            validator.CheckArgs("all");
+            validator.Parse("all");
 
             Assert.AreEqual(false, GetRaisingResults());
         }
@@ -115,7 +115,7 @@ namespace ArgardTests
                 exceptionThrown = true;
             }
 
-            validator.CheckArgs("list");
+            validator.Parse("list");
 
             Assert.AreEqual(true, exceptionThrown);
         }
@@ -137,7 +137,7 @@ namespace ArgardTests
                 exceptionThrown = true;
             }
 
-            validator.CheckArgs("inst");
+            validator.Parse("inst");
 
             Assert.AreEqual(true, exceptionThrown);
         }
@@ -149,7 +149,7 @@ namespace ArgardTests
 
             ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddParameterSet("cmd, (inst[all] |  add )", expectedFunc);
-            validator.CheckArgs("cmd");
+            validator.Parse("cmd");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -161,9 +161,66 @@ namespace ArgardTests
 
             ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddParameterSet("cmd, (inst[all] |  add )", expectedFunc);
-            validator.CheckArgs("cmd");
+            validator.Parse("cmd");
 
             Assert.AreEqual(true, GetRaisingResults());
+        }
+
+        [TestMethod]
+        public void TestMethodCmdIdentifiers9()
+        {
+            InitializeTest();
+            bool exceptionThrown = false;
+
+            ParameterSetParser validator = new ParameterSetParser(false);
+            try
+            {
+                validator.AddParameterSet("cmd, inst[all], install", expectedFunc);
+            }
+            catch(Argard.Exception.MultipleUseOfIdentifierNameException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TestMethodCmdIdentifiers10()
+        {
+            InitializeTest();
+            bool exceptionThrown = false;
+
+            ParameterSetParser validator = new ParameterSetParser(false);
+            try
+            {
+                validator.AddParameterSet("cmd, list, inst, list", expectedFunc);
+            }
+            catch(MultipleUseOfIdentifierNameException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.AreEqual(true, exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TestMethodCmdIdentifiers11()
+        {
+            InitializeTest();
+            bool exceptionThrown = false;
+
+            ParameterSetParser validator = new ParameterSetParser(false);
+            try
+            {
+                validator.AddParameterSet("cmd, cmd", expectedFunc);
+            }
+            catch (MultipleUseOfIdentifierNameException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.AreEqual(true, exceptionThrown);
         }
     }
 }

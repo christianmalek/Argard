@@ -48,7 +48,7 @@ namespace ArgardTests
             parser.AddParameterSet("install | add,x, y", dummyFunc);
             parser.AddParameterSet("install,y:(aloha)", dummyFunc);
 
-            parser.CheckArgs("install -y");
+            parser.Parse("install -y");
 
             bool actual = args.Options["y"].Values.AllowedValues[0] == "aloha";
 
@@ -72,7 +72,7 @@ namespace ArgardTests
                 exceptionThrown = true;
             }
 
-            parser.CheckArgs("install -y");
+            parser.Parse("install -y");
 
             Assert.AreEqual(true, exceptionThrown);
         }
@@ -105,7 +105,7 @@ namespace ArgardTests
             ParameterSetParser parser = new ParameterSetParser(false);
             parser.AddParameterSet("install,x,(y), z", dummyFunc);
             parser.AddParameterSet("install,x, y", expectedFunc);
-            parser.CheckArgs("install -x -y");
+            parser.Parse("install -x -y");
 
             Assert.AreEqual(true, expectedEventGotRaised);
         }
@@ -127,7 +127,7 @@ namespace ArgardTests
                 exceptionThrown = true;
             }
 
-            parser.CheckArgs("install -y");
+            parser.Parse("install -y");
 
             Assert.AreEqual(true, exceptionThrown);
         }
@@ -161,7 +161,7 @@ namespace ArgardTests
             parser.AddParameterSet("install,x,(y), z", dummyFunc);
             parser.AddParameterSet("list", dummyFunc);
             parser.AddParameterSet("install,x, y", expectedFunc);
-            parser.CheckArgs("install -x -y");
+            parser.Parse("install -x -y");
 
             Assert.AreEqual(true, expectedEventGotRaised);
         }

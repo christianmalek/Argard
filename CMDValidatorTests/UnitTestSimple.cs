@@ -44,7 +44,7 @@ namespace ArgardTests
             validator.AddParameterSet("list", expectedFunc);
             validator.AddParameterSet("install", dummyFunc);
 
-            validator.CheckArgs("list");
+            validator.Parse("list");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -58,7 +58,7 @@ namespace ArgardTests
             validator.AddParameterSet("list", dummyFunc);
             validator.AddParameterSet("install", expectedFunc);
 
-            validator.CheckArgs("install");
+            validator.Parse("install");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -72,7 +72,7 @@ namespace ArgardTests
             validator.AddParameterSet("list", expectedFunc);
             validator.AddParameterSet("install", dummyFunc);
 
-            validator.CheckArgs("");
+            validator.Parse("");
 
             Assert.AreEqual(false, GetRaisingResults());
         }
@@ -86,7 +86,7 @@ namespace ArgardTests
             validator.AddParameterSet("    list     ", expectedFunc);
             validator.AddParameterSet("  install  ", dummyFunc);
 
-            validator.CheckArgs("list");
+            validator.Parse("list");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -169,7 +169,7 @@ namespace ArgardTests
             validator.AddParameterSet("list", expectedFunc);
             validator.AddParameterSet("install", dummyFunc);
 
-            validator.CheckArgs("LIST");
+            validator.Parse("LIST");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -183,7 +183,7 @@ namespace ArgardTests
             validator.AddParameterSet("list", expectedFunc);
             validator.AddParameterSet("install", dummyFunc);
 
-            validator.CheckArgs("LIST");
+            validator.Parse("LIST");
 
             Assert.AreEqual(false, GetRaisingResults());
         }
@@ -208,7 +208,7 @@ namespace ArgardTests
 
             validator.AddParameterSet("install", dummyFunc);
 
-            validator.CheckArgs("list");
+            validator.Parse("list");
 
             Assert.AreEqual(true, exceptionThrown);
         }
@@ -233,7 +233,7 @@ namespace ArgardTests
 
             validator.AddParameterSet("install", dummyFunc);
 
-            validator.CheckArgs("list");
+            validator.Parse("list");
 
             Assert.AreEqual(true, exceptionThrown);
         }

@@ -26,17 +26,17 @@ namespace DebugProgramme
             parser.AddParameterSet("add:^l", add);
 
             //matches "list -src string -dst string"
-            //instead of src you could use source and for dst you could use destination
+            //instead of "src" you could use "source" and for "dst" you could use "destination"
             //by the way, the order of the options doesn't matter ;)
             parser.AddParameterSet("list,src|source:^s,dst|destination:^s", list);
 
             //here we will set the to parsing arguments.
             string args = "add 5, 10, 25";
 
-            //call the check args method to start the matching process
-            //if it matches with a parameter set, it will trigger the respective event
+            //call the Parse(...) method to start the matching process
+            //if the passed parameter matches with a parameter set, it will trigger the respective event
             //otherwise it will return false and computes the if-statement
-            if (parser.CheckArgs(args) == false)
+            if (parser.Parse(args) == false)
                 Console.WriteLine("Nothing matched. :(");
         }
 

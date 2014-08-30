@@ -44,7 +44,7 @@ namespace ArgardTests
             validator.AddParameterSet("install", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install");
+            validator.Parse("install");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -59,7 +59,7 @@ namespace ArgardTests
             validator.AddParameterSet("install", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install angularjs");
+            validator.Parse("install angularjs");
 
             Assert.AreEqual(false, GetRaisingResults());
         }

@@ -44,7 +44,7 @@ namespace ArgardTests
             validator.AddParameterSet("install,src", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install --src");
+            validator.Parse("install --src");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -59,7 +59,7 @@ namespace ArgardTests
             validator.AddParameterSet("install,src", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install src");
+            validator.Parse("install src");
 
             Assert.AreEqual(false, GetRaisingResults());
         }
@@ -74,7 +74,7 @@ namespace ArgardTests
             validator.AddParameterSet("  install   ,   src  ", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install --src");
+            validator.Parse("install --src");
 
             Assert.AreEqual(true, GetRaisingResults());
         }

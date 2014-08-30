@@ -61,19 +61,9 @@ namespace Argard
             //otherwise a exception will be thrown
             foreach (var parameterSet in this._parameterSets)
                 if (AreArgumentSetsClearlyRecognizable(parameterSet, newParameterSet) == false)
-                    throw new InvalidParameterSetException(string.Format("An already added parameter set couldn't be distinguished from another parameter set. The amount or name of non-optional parameters must be different."));
+                    throw new InvalidParameterSetException("An already added parameter set couldn't be distinguished from another parameter set. The amount or name of non-optional parameters must be different.");
 
-                //foreach (var newIdentifier in newParameterSet.GetCmd().Identifiers)
-                //    if (parameterSet.GetCmd().Identifiers.Contains(newIdentifier))
-                //    {
-
-                //        //
-
-                //        string message = "Cmd already exists. It's only allowed to use every cmd one time.";
-                //        throw new InvalidParameterSetException(string.Format("{0}\nduplicative cmd: {1}", message, newIdentifier)); //TODO: Exception type is wrong
-                //    }
-
-            this._parameterSets.Add(new ParameterSet(parameters, onTrigger));
+            this._parameterSets.Add(newParameterSet);
         }
 
         private bool AreArgumentSetsClearlyRecognizable(ParameterSet set1, ParameterSet set2)
@@ -116,12 +106,12 @@ namespace Argard
             return false;
         }
 
-        public bool CheckArgs(string args)
+        public bool Parse(string args)
         {
-            return this.CheckArgs(_argumentParser.SplitArgs(args));
+            return this.Parse(_argumentParser.SplitArgs(args));
         }
 
-		public bool CheckArgs(List<string> args)
+		public bool Parse(List<string> args)
 		{
             if (this._ignoreCase)
                 for (int i = 0; i < args.Count; i++)

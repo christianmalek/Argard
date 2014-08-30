@@ -126,7 +126,7 @@ namespace ArgardTests
 
             ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddParameterSet("l[i]st , l, t", expectedFunc);
-            validator.CheckArgs("lst -lt");
+            validator.Parse("lst -lt");
 
             Assert.AreEqual(true, expectedEventGotRaised);
         }
@@ -138,7 +138,7 @@ namespace ArgardTests
 
             ParameterSetParser validator = new ParameterSetParser(false);
             validator.AddParameterSet("l[i]st , a, b, c, d, e, test1, test2, abk", expectedFunc);
-            validator.CheckArgs("lst -abed -test1 -test2 -abk -c");
+            validator.Parse("lst -abed -test1 -test2 -abk -c");
 
             Assert.AreEqual(true, expectedEventGotRaised);
         }

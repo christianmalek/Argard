@@ -44,7 +44,7 @@ namespace ArgardTests
             validator.AddParameterSet("install:^l", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install jquery");
+            validator.Parse("install jquery");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -59,7 +59,7 @@ namespace ArgardTests
             validator.AddParameterSet("install:^l", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install");
+            validator.Parse("install");
 
             Assert.AreEqual(false, GetRaisingResults());
         }
@@ -74,7 +74,7 @@ namespace ArgardTests
             validator.AddParameterSet("install:^l", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install jquery lo-dash \"yet another option\"");
+            validator.Parse("install jquery lo-dash \"yet another option\"");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -89,7 +89,7 @@ namespace ArgardTests
             validator.AddParameterSet("install:(^l)", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install jquery");
+            validator.Parse("install jquery");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -104,7 +104,7 @@ namespace ArgardTests
             validator.AddParameterSet("install:(^l)", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install");
+            validator.Parse("install");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -119,7 +119,7 @@ namespace ArgardTests
             validator.AddParameterSet("inst[all]:(^l)", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("inst angularjs jquery");
+            validator.Parse("inst angularjs jquery");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -134,7 +134,7 @@ namespace ArgardTests
             validator.AddParameterSet("inst[all]:(^l)", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("inst, lol dsadasdsa as,das, \"fds  gf gffds\", gfsdfs fdf");
+            validator.Parse("inst, lol dsadasdsa as,das, \"fds  gf gffds\", gfsdfs fdf");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -149,7 +149,7 @@ namespace ArgardTests
             validator.AddParameterSet("install:^list", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install jquery");
+            validator.Parse("install jquery");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -164,7 +164,7 @@ namespace ArgardTests
             validator.AddParameterSet("install:^list", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install");
+            validator.Parse("install");
 
             Assert.AreEqual(false, GetRaisingResults());
         }
@@ -179,7 +179,7 @@ namespace ArgardTests
             validator.AddParameterSet("install:^list", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install jquery lo-dash \"yet another option\"");
+            validator.Parse("install jquery lo-dash \"yet another option\"");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
@@ -194,7 +194,7 @@ namespace ArgardTests
             validator.AddParameterSet("install:(^list)", expectedFunc);
             validator.AddParameterSet("show", dummyFunc);
 
-            validator.CheckArgs("install jquery");
+            validator.Parse("install jquery");
 
             Assert.AreEqual(true, GetRaisingResults());
         }
