@@ -14,7 +14,6 @@ Current features:
  - allowed values for parameters (will only match if the parsed values are predefined with the parameter)
  - flag support (every single letter parameters can be chained, e.g. -xfyz)
 
-Important: The wiki is at the moment obsolete! It will be updated soon!
 ---
 
 Example programme
